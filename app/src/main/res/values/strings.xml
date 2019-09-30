@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Calculator</string>
+    <string name="add_session_bsh_title">New event</string>
+    <string name="session_screen_title">My events</string>
+</resources>

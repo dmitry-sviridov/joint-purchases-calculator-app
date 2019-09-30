@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Калькулятор покупок</string>
+    <string name="add_session_bsh_title">Добавьте новое мероприятие</string>
+    <string name="session_screen_title">Мои мероприятия</string>
+</resources>
