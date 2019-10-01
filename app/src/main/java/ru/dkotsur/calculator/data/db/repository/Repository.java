@@ -7,8 +7,7 @@ import ru.dkotsur.calculator.data.db.dao.PersonDao;
 import ru.dkotsur.calculator.data.db.dao.PersonItemDao;
 import ru.dkotsur.calculator.data.db.dao.SessionDao;
 
-public abstract class Repository {
-
+abstract class Repository {
     CalculatorDatabase db = App.instance.getDatabase();
     SessionDao sessionDao;
     PersonDao personDao;

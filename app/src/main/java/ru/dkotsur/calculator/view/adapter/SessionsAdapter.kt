@@ -25,14 +25,13 @@ class SessionsAdapter: ListAdapter<Session, SessionsAdapter.Holder>(DIFF_CALLBAC
     }
 
     inner class Holder(itemView: View): RecyclerView.ViewHolder(itemView) {
-
         private val sessionTitle = itemView.tw_session_title
         private val sessionDate = itemView.tw_session_date
 
         init {
             itemView.setOnClickListener {
                 val pos = adapterPosition
-                if (position != RecyclerView.NO_POSITION) {
+                if (pos != RecyclerView.NO_POSITION) {
                     listener.onItemClick(getItem(pos))
                 }
             }
@@ -59,7 +58,7 @@ class SessionsAdapter: ListAdapter<Session, SessionsAdapter.Holder>(DIFF_CALLBAC
     companion object {
         private val DIFF_CALLBACK = object: DiffUtil.ItemCallback<Session>() {
             override fun areItemsTheSame(oldItem:Session, newItem:Session):Boolean {
-                return oldItem.id === newItem.id
+                return oldItem.id == newItem.id
             }
             override fun areContentsTheSame(oldItem:Session, newItem:Session):Boolean {
                 return (oldItem.title == newItem.title &&

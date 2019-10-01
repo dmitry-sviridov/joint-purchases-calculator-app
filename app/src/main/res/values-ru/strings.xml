@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Калькулятор покупок</string>
-    <string name="add_session_bsh_title">Добавьте новое мероприятие</string>
+
+<!--    Screens titles-->
     <string name="session_screen_title">Мои мероприятия</string>
+    <string name="edit_session_users_tab">Участники</string>
+    <string name="edit_session_items_tab">Покупки</string>
+
+<!--    Add new....-->
+    <string name="add_session_bsh_title">Добавьте новое мероприятие</string>
+    <string name="add_person_bsh_title">Добавьте нового участника</string>
+    <string name="add_item_fragment_title">Новая покупка</string>
+
 </resources>

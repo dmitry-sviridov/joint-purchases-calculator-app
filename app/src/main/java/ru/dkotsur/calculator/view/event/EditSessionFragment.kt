@@ -1,4 +1,4 @@
-package ru.dkotsur.calculator.view.session
+package ru.dkotsur.calculator.view.event
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle

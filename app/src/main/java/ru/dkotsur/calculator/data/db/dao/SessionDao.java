@@ -23,6 +23,9 @@ public interface SessionDao {
     @Delete
     void delete(Session session);
 
+    @Query("DELETE FROM sessions")
+    void deleteAll();
+
     @Query("SELECT * FROM sessions")
     LiveData<List<Session>> getAllSessions();
 

@@ -27,12 +27,20 @@ class SessionViewModel: ViewModel() {
     }
 
     fun saveSession(text: Editable) {
-        val saved = Session(text.toString(), getDate())
-        sessionRepository.insert(saved)
-        Log.e("INSERT", "session with text = $text was inserted")
+        if (text.isNotEmpty()) {
+            val saved = Session(text.toString(), getDate())
+            sessionRepository.insert(saved)
+            Log.e("INSERT", "session with text = $text was inserted")
+        } else {
+            Log.e("INSERT", "text is empty")
+        }
     }
 
-    fun getDate(): String {
+    fun deleteAllSession() {
+        sessionRepository.deleteAll()
+    }
+
+    private fun getDate(): String {
         val current = Date()
         val formatter = SimpleDateFormat("dd.MM.yyyy")
         val result = formatter.format(current)

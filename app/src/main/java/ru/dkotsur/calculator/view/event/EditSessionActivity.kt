@@ -1,4 +1,4 @@
-package ru.dkotsur.calculator.view.session
+package ru.dkotsur.calculator.view.event
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -15,7 +15,9 @@ class EditSessionActivity : AppCompatActivity() {
         setContentView(R.layout.edit_session_activity)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, EditSessionFragment.newInstance())
+                .replace(R.id.container,
+                    EditSessionFragment.newInstance()
+                )
                 .commitNow()
         }
     }

@@ -1,4 +1,4 @@
-package ru.dkotsur.calculator.view.session
+package ru.dkotsur.calculator.view.sessions
 
 import android.content.Context
 import android.content.Intent
@@ -11,7 +11,6 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -24,6 +23,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import ru.dkotsur.calculator.R
 import ru.dkotsur.calculator.data.db.entity.Session
 import ru.dkotsur.calculator.view.adapter.SessionsAdapter
+import ru.dkotsur.calculator.view.event.EditSessionActivity
 import ru.dkotsur.calculator.viewmodel.SessionViewModel
 
 
@@ -33,33 +33,19 @@ class SessionActivity : AppCompatActivity() {
     private lateinit var bottomSheet: LinearLayout
     private lateinit var editTextSession: EditText
 
+    private lateinit var viewModel: SessionViewModel
+    private lateinit var sessionsAdapter: SessionsAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setTitle(R.string.session_screen_title)
-        val viewModel = ViewModelProviders.of(this).get(SessionViewModel::class.java)
-        val sessionAdapter = SessionsAdapter()
 
-        rv_sessions.apply {
-            layoutManager = LinearLayoutManager(this.context).apply {
-                stackFromEnd = true
-                reverseLayout = true
-            }
-            adapter = sessionAdapter
-            setHasFixedSize(true)
-        }
+        viewModel = ViewModelProviders.of(this).get(SessionViewModel::class.java)
+        sessionsAdapter = SessionsAdapter()
 
-        viewModel.getAllSession().observe(this, Observer {
-            it?.let(sessionAdapter::submitList)
-            val count = it.size
-            rv_sessions.smoothScrollToPosition(rv_sessions.adapter!!.itemCount)
-        })
-
-
-        bottomSheet = findViewById(R.id.bottom_sheet)
-        editTextSession = findViewById(R.id.edit_text_session)
-        sheetBehavior = BottomSheetBehavior.from(bottomSheet)
-        sheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        initBottomSheet()
+        initRecyclerView()
 
         val fabAddSession = findViewById<FloatingActionButton>(R.id.fab_add_session)
         fabAddSession.setOnClickListener{
@@ -77,12 +63,11 @@ class SessionActivity : AppCompatActivity() {
             handled
         }
 
-
         ItemTouchHelper(object: ItemTouchHelper.SimpleCallback(0,
             ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                viewModel.deleteSession(sessionAdapter.getSessionAt(viewHolder.adapterPosition))
+                viewModel.deleteSession(sessionsAdapter.getSessionAt(viewHolder.adapterPosition))
             }
 
             override fun onMove(
@@ -95,9 +80,9 @@ class SessionActivity : AppCompatActivity() {
         }).attachToRecyclerView(rv_sessions)
 
 
-        sessionAdapter.setOnItemClickListener(object: SessionsAdapter.onItemClickListener {
+        sessionsAdapter.setOnItemClickListener(object: SessionsAdapter.onItemClickListener {
             override fun onItemClick(session: Session) {
-                var intent = Intent(this@SessionActivity, EditSessionActivity::class.java)
+                val intent = Intent(this@SessionActivity, EditSessionActivity::class.java)
                 intent.putExtra(EditSessionActivity.EXTRA_ID, session.id)
                 startActivity(intent)
             }
@@ -111,6 +96,32 @@ class SessionActivity : AppCompatActivity() {
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
+    }
+
+    private fun initRecyclerView() {
+        viewModel.getAllSession().observe(this, Observer {
+            it?.let(sessionsAdapter::submitList)
+            Log.e("init recycler view", "Observer calls!")
+            if (rv_sessions.adapter!!.itemCount > 0) {
+                rv_sessions.smoothScrollToPosition(rv_sessions.adapter!!.itemCount)
+            }
+        })
+
+        rv_sessions.apply {
+            layoutManager = LinearLayoutManager(this.context).apply {
+                stackFromEnd = true
+                reverseLayout = true
+            }
+            adapter = sessionsAdapter
+            setHasFixedSize(true)
+        }
+    }
+
+    private fun initBottomSheet() {
+        bottomSheet = findViewById(R.id.bottom_sheet)
+        editTextSession = findViewById(R.id.edit_text_session)
+        sheetBehavior = BottomSheetBehavior.from(bottomSheet)
+        sheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
     private fun closeBottomsheet() {
