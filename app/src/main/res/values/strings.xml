@@ -6,4 +6,10 @@
     <string name="edit_session_items_tab">Items</string>
     <string name="add_person_bsh_title">New person\'s name</string>
     <string name="add_item_fragment_title">New item</string>
+    <string name="created_at">Created at </string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="tab_title_users">Members</string>
+    <string name="tab_title_items">Items</string>
+    <string name="edit_event">Edit event</string>
 </resources>

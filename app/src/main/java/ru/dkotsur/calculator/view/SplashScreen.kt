@@ -10,7 +10,7 @@ import ru.dkotsur.calculator.view.sessions.SessionActivity
 
 class SplashScreen : AppCompatActivity() {
 
-    private val SPLASH_DISPLAY_LENGTH: Long = 100L
+    private val SPLASH_DISPLAY_LENGTH: Long = 300L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

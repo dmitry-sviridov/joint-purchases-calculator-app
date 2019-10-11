@@ -11,5 +11,9 @@
     <string name="add_session_bsh_title">Добавьте новое мероприятие</string>
     <string name="add_person_bsh_title">Добавьте нового участника</string>
     <string name="add_item_fragment_title">Новая покупка</string>
+    <string name="created_at">Дата создания </string>
+    <string name="tab_title_users">Участники</string>
+    <string name="tab_title_items">Покупки</string>
+    <string name="edit_event">Редактирование мероприятия</string>
 
 </resources>

@@ -22,7 +22,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.dkotsur.calculator.R
 import ru.dkotsur.calculator.data.db.entity.Session
-import ru.dkotsur.calculator.view.adapter.SessionsAdapter
+import ru.dkotsur.calculator.view.sessions.adapter.SessionsAdapter
 import ru.dkotsur.calculator.view.event.EditSessionActivity
 import ru.dkotsur.calculator.viewmodel.SessionViewModel
 
@@ -84,10 +84,19 @@ class SessionActivity : AppCompatActivity() {
             override fun onItemClick(session: Session) {
                 val intent = Intent(this@SessionActivity, EditSessionActivity::class.java)
                 intent.putExtra(EditSessionActivity.EXTRA_ID, session.id)
+                intent.putExtra(EditSessionActivity.EXTRA_TITLE, session.title)
                 startActivity(intent)
             }
         })
 
+    }
+
+    override fun onBackPressed() {
+        if (sheetBehavior.state == BottomSheetBehavior.STATE_HIDDEN) {
+            super.onBackPressed()
+        } else {
+            sheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        }
     }
 
     private fun closeKeyboard() {

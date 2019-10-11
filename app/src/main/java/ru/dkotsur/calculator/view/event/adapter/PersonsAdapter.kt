@@ -1,4 +1,4 @@
-package ru.dkotsur.calculator.view.adapter
+package ru.dkotsur.calculator.view.event.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,11 +6,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.li_session.view.*
+import kotlinx.android.synthetic.main.li_persons.view.*
 import ru.dkotsur.calculator.R
-import ru.dkotsur.calculator.data.db.entity.Session
+import ru.dkotsur.calculator.data.db.entity.Person
 
-class SessionsAdapter: ListAdapter<Session, SessionsAdapter.Holder>(DIFF_CALLBACK) {
+class PersonsAdapter: ListAdapter<Person, PersonsAdapter.Holder>(DIFF_CALLBACK) {
 
     lateinit var listener: onItemClickListener
 
@@ -20,13 +20,12 @@ class SessionsAdapter: ListAdapter<Session, SessionsAdapter.Holder>(DIFF_CALLBAC
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.li_session, parent, false)
+            .inflate(R.layout.li_persons, parent, false)
         return Holder(itemView)
     }
 
     inner class Holder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        private val sessionTitle = itemView.tw_session_title
-        private val sessionDate = itemView.tw_session_date
+        private val personName = itemView.tw_person_name
 
         init {
             itemView.setOnClickListener {
@@ -37,32 +36,30 @@ class SessionsAdapter: ListAdapter<Session, SessionsAdapter.Holder>(DIFF_CALLBAC
             }
         }
 
-        fun bind(session: Session) {
-            sessionTitle.text = session.title
-            sessionDate.text = session.date
+        fun bind(person: Person) {
+            personName.text = person.name
         }
     }
 
     interface onItemClickListener {
-        fun onItemClick(session: Session)
+        fun onItemClick(person: Person)
     }
 
     fun setOnItemClickListener(listener: onItemClickListener) {
         this.listener = listener
     }
 
-    fun getSessionAt(position:Int): Session {
+    fun getSessionAt(position:Int): Person {
         return getItem(position)
     }
 
     companion object {
-        private val DIFF_CALLBACK = object: DiffUtil.ItemCallback<Session>() {
-            override fun areItemsTheSame(oldItem:Session, newItem:Session):Boolean {
+        private val DIFF_CALLBACK = object: DiffUtil.ItemCallback<Person>() {
+            override fun areItemsTheSame(oldItem: Person, newItem: Person):Boolean {
                 return oldItem.id == newItem.id
             }
-            override fun areContentsTheSame(oldItem:Session, newItem:Session):Boolean {
-                return (oldItem.title == newItem.title &&
-                        oldItem.date == newItem.date)
+            override fun areContentsTheSame(oldItem: Person, newItem: Person):Boolean {
+                return (oldItem.name == newItem.name )
             }
         }
     }
