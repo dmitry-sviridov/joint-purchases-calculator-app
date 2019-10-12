@@ -1,11 +1,9 @@
 package ru.dkotsur.calculator.view.event
 
 import android.content.Context
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,13 +12,17 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.edit_sessions_users_fragment.*
 import ru.dkotsur.calculator.R
+import ru.dkotsur.calculator.data.db.entity.Person
 import ru.dkotsur.calculator.view.event.adapter.PersonsAdapter
+import ru.dkotsur.calculator.view.event.adapter.PersonsAdapter.onItemClickListener
 import ru.dkotsur.calculator.viewmodel.EditSessionViewModel
 
 class EditSessionUsersFragment : Fragment() {
@@ -44,17 +46,9 @@ class EditSessionUsersFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-        Log.e("FR", "VIEW CREATED")
-
         val root = inflater.inflate(R.layout.edit_sessions_users_fragment, container, false)
         initBottomSheet(root)
-
-        fabAddPerson = root.findViewById(R.id.fab_add_user)
-        fabAddPerson.setOnClickListener{
-            sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-        }
-
+        initFab(root)
         editTextUserName.setOnEditorActionListener { v, actionId, event ->
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -65,7 +59,6 @@ class EditSessionUsersFragment : Fragment() {
             }
             handled
         }
-
         return root
     }
 
@@ -78,6 +71,7 @@ class EditSessionUsersFragment : Fragment() {
         imm = activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         personsAdapter = PersonsAdapter()
         initRecyclerView()
+
     }
 
     private fun initBottomSheet(root: View) {
@@ -119,6 +113,19 @@ class EditSessionUsersFragment : Fragment() {
             }
             adapter = personsAdapter
             setHasFixedSize(true)
+        }
+
+        personsAdapter.setOnItemClickListener(object : onItemClickListener {
+            override fun onDeletePersonClick(person: Person) {
+                viewModel.deletePerson(person)
+            }
+        })
+    }
+
+    private fun initFab(root: View) {
+        fabAddPerson = root.findViewById(R.id.fab_add_user)
+        fabAddPerson.setOnClickListener{
+            sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
     }
 

@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import ru.dkotsur.calculator.data.db.entity.Person
-import ru.dkotsur.calculator.data.db.entity.Session
 import ru.dkotsur.calculator.data.db.repository.RepositorySelectedSession
 
 class EditSessionViewModel(sessionId: Long) : ViewModel() {
@@ -30,6 +29,10 @@ class EditSessionViewModel(sessionId: Long) : ViewModel() {
         } else {
             Log.e("INSERT", "text is empty")
         }
+    }
+
+    fun deletePerson(person: Person) {
+        repositorySelectedSession.deletePerson(person)
     }
 
 }

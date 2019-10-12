@@ -7,7 +7,6 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_persons"
-        android:paddingTop="?attr/actionBarSize"
         android:clipToPadding="false"
         android:paddingBottom="@dimen/rw_padding_bottom"
         android:layout_width="match_parent"

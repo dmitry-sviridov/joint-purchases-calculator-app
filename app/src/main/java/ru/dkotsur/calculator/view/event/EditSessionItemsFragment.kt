@@ -27,7 +27,6 @@ class EditSessionItemsFragment : Fragment() {
     ): View {
         val root = inflater.inflate(R.layout.edit_sessions_items_fragment, container, false)
 
-
         return root
     }
 

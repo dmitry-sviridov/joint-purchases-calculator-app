@@ -3,6 +3,8 @@ package ru.dkotsur.calculator.view.event.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -12,7 +14,7 @@ import ru.dkotsur.calculator.data.db.entity.Person
 
 class PersonsAdapter: ListAdapter<Person, PersonsAdapter.Holder>(DIFF_CALLBACK) {
 
-    lateinit var listener: onItemClickListener
+    lateinit var listener: PersonsAdapter.onItemClickListener
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.bind(getItem(position))
@@ -26,12 +28,13 @@ class PersonsAdapter: ListAdapter<Person, PersonsAdapter.Holder>(DIFF_CALLBACK) 
 
     inner class Holder(itemView: View): RecyclerView.ViewHolder(itemView) {
         private val personName = itemView.tw_person_name
+        private val deletePerson: ImageView = itemView.btn_delete_person
 
         init {
-            itemView.setOnClickListener {
+            deletePerson.setOnClickListener{
                 val pos = adapterPosition
                 if (pos != RecyclerView.NO_POSITION) {
-                    listener.onItemClick(getItem(pos))
+                    listener.onDeletePersonClick(getItem(pos))
                 }
             }
         }
@@ -39,17 +42,18 @@ class PersonsAdapter: ListAdapter<Person, PersonsAdapter.Holder>(DIFF_CALLBACK) 
         fun bind(person: Person) {
             personName.text = person.name
         }
+
     }
 
     interface onItemClickListener {
-        fun onItemClick(person: Person)
+        fun onDeletePersonClick(person: Person)
     }
 
     fun setOnItemClickListener(listener: onItemClickListener) {
         this.listener = listener
     }
 
-    fun getSessionAt(position:Int): Person {
+    fun getPersonAt(position:Int): Person {
         return getItem(position)
     }
 
