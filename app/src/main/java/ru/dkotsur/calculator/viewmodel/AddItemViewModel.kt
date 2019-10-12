@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import ru.dkotsur.calculator.data.db.entity.Person
 import ru.dkotsur.calculator.data.db.repository.RepositorySelectedSession
 
-class EditSessionViewModel(sessionId: Long) : ViewModel() {
+class AddItemViewModel(sessionId: Long) : ViewModel() {
 
     private var mSessionId: Long = 0
     private val repositorySelectedSession = RepositorySelectedSession(sessionId)
@@ -38,5 +38,4 @@ class EditSessionViewModel(sessionId: Long) : ViewModel() {
     fun getSessionId(): Long {
         return mSessionId
     }
-
 }

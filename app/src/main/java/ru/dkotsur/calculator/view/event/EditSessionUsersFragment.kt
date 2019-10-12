@@ -18,7 +18,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.android.synthetic.main.edit_sessions_users_fragment.*
+import kotlinx.android.synthetic.main.fr_edit_users_in_session.*
 import ru.dkotsur.calculator.R
 import ru.dkotsur.calculator.data.db.entity.Person
 import ru.dkotsur.calculator.view.event.adapter.PersonsAdapter
@@ -46,7 +46,7 @@ class EditSessionUsersFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val root = inflater.inflate(R.layout.edit_sessions_users_fragment, container, false)
+        val root = inflater.inflate(R.layout.fr_edit_users_in_session, container, false)
         initBottomSheet(root)
         initFab(root)
         editTextUserName.setOnEditorActionListener { v, actionId, event ->

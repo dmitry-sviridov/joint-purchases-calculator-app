@@ -10,7 +10,7 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_edit_session.*
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.edit_sessions_users_fragment.*
+import kotlinx.android.synthetic.main.fr_edit_users_in_session.*
 import ru.dkotsur.calculator.R
 import ru.dkotsur.calculator.data.db.entity.Person
 import ru.dkotsur.calculator.view.event.adapter.PersonsAdapter

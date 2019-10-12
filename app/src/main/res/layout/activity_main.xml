@@ -42,6 +42,6 @@
         app:layout_anchor="@+id/bottom_sheet"
         app:layout_anchorGravity="top|end" />
 
-    <include layout="@layout/bottom_sheet_add_new" />
+    <include layout="@layout/bs_add_new" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

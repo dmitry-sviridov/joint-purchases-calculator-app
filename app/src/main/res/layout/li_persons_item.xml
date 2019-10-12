@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <TextView
+            android:id="@+id/tw_person_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ваня Иванов"
+            android:textSize="20sp"
+            android:ellipsize="end"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            />
+
+        <RadioButton
+            android:id="@+id/btn_delete_person"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true">
+
+        </RadioButton>
+
+</RelativeLayout>

@@ -12,4 +12,14 @@
     <string name="tab_title_users">Members</string>
     <string name="tab_title_items">Items</string>
     <string name="edit_event">Edit event</string>
+    <string name="add_item">New item</string>
+    <string name="edit_item">Edit item</string>
+    <string name="item_title">Item title</string>
+    <string name="item_cost">Item cost</string>
+    <string name="bayer">Bayer</string>
+    <string name="mark_participants_title">Mark participants</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="item_save_btn">Save</string>
 </resources>
