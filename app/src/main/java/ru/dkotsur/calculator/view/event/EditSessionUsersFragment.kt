@@ -64,7 +64,6 @@ class EditSessionUsersFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        Log.e("FR", "CREATED")
         viewModel = activity!!.run {
             ViewModelProviders.of(this).get(EditSessionViewModel::class.java)
         }

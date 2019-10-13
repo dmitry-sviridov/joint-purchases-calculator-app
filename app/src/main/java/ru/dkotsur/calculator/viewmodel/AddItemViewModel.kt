@@ -1,16 +1,19 @@
 package ru.dkotsur.calculator.viewmodel
 
-import android.text.Editable
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import ru.dkotsur.calculator.data.db.entity.Item
 import ru.dkotsur.calculator.data.db.entity.Person
+import ru.dkotsur.calculator.data.db.repository.RepositoryItem
 import ru.dkotsur.calculator.data.db.repository.RepositorySelectedSession
 
 class AddItemViewModel(sessionId: Long) : ViewModel() {
 
     private var mSessionId: Long = 0
     private val repositorySelectedSession = RepositorySelectedSession(sessionId)
+    private val repositoryAddItem =
+        RepositoryItem(sessionId)
+
     private val allPersonsInSession: LiveData<List<Person>>
 
     init {
@@ -21,21 +24,10 @@ class AddItemViewModel(sessionId: Long) : ViewModel() {
     fun getAllPersonsInSession(): LiveData<List<Person>> {
         return allPersonsInSession
     }
-    fun saveNewPerson(text: Editable) {
-        if (text.isNotEmpty()) {
-            val saved = Person(text.toString(), mSessionId)
-            repositorySelectedSession.insertPerson(saved)
-            Log.e("INSERT", "Person with name = $text was inserted")
-        } else {
-            Log.e("INSERT", "text is empty")
-        }
-    }
 
-    fun deletePerson(person: Person) {
-        repositorySelectedSession.deletePerson(person)
-    }
-
-    fun getSessionId(): Long {
-        return mSessionId
+    fun saveNewItem(itemTitle: String, itemCost: Double, bayerId: Long, personsIds: List<Long>) {
+        val item = Item(itemTitle, itemCost, bayerId, mSessionId)
+        var itemId = repositoryAddItem.insertItem(item)
+        repositoryAddItem.insertPersonsItems(itemId, personsIds)
     }
 }

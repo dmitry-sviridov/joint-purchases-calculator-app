@@ -15,7 +15,7 @@ import ru.dkotsur.calculator.data.db.entity.Item;
 public interface ItemDao {
 
     @Insert
-    void insert(Item item);
+    long insert(Item item);
 
     @Update
     void update(Item item);

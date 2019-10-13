@@ -49,4 +49,9 @@ public class Person {
     public void setSessionId(long sessionId) {
         this.sessionId = sessionId;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

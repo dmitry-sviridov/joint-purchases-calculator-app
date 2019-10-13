@@ -22,5 +22,6 @@
     <string name="bayer">Bayer</string>
     <string name="mark_participants_title">mark participants</string>
     <string name="item_save_btn">Save</string>
+    <string name="items_recycler_list_item_cost">Cost:</string>
 
 </resources>
