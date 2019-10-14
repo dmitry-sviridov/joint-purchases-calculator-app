@@ -1,6 +1,7 @@
 package ru.dkotsur.calculator.data.db.repository;
 
 import android.os.AsyncTask;
+import android.util.Log;
 import android.util.Pair;
 
 import androidx.lifecycle.LiveData;
@@ -17,6 +18,7 @@ import ru.dkotsur.calculator.data.db.entity.PersonItem;
 public class RepositoryItem extends Repository {
 
     private long sessionId;
+    private long itemId;
     private LiveData<List<Person>> allPersonsInSession;
     private LiveData<List<Person>> allPersonsForItem;
 
@@ -28,11 +30,25 @@ public class RepositoryItem extends Repository {
         allPersonsInSession = personDao.getPersonsFromSession(sessionId);
     }
 
+    public RepositoryItem(long sessionId, long itemId) {
+        this.itemId = itemId;
+        this.sessionId = sessionId;
+        personDao = db.personDao();
+        personItemDao = db.personItemDao();
+        itemDao = db.itemDao();
+        allPersonsInSession = personDao.getPersonsFromSession(sessionId);
+    }
+
     public Item getItemById(long sessionId) throws ExecutionException, InterruptedException {
-        return new GetItemById(itemDao).execute(Long.valueOf(sessionId)).get();
+        return new GetItemById(itemDao).execute(sessionId).get();
     }
     public LiveData<List<Person>> getPersonsFromSession(long sessionId) {
         return allPersonsInSession;
+    }
+    public Person getItemsBayer() throws ExecutionException, InterruptedException {
+        Log.e("DAFDFADF", " session id = " + String.valueOf(sessionId) +"itemID"  + itemId);
+        Person result = new GetItemsBayer(itemDao).execute(itemId).get();
+        return result;
     }
 
     public long insertItem(Item item) throws ExecutionException, InterruptedException {
@@ -115,6 +131,20 @@ public class RepositoryItem extends Repository {
                 personItemDao.insert(new PersonItem(itemId, userId));
             }
             return null;
+        }
+    }
+
+    private static class GetItemsBayer extends AsyncTask<Long, Void, Person> {
+
+        private ItemDao itemDao;
+
+        public GetItemsBayer(ItemDao itemDao) {
+            this.itemDao = itemDao;
+        }
+
+        @Override
+        protected Person doInBackground(Long... longs) {
+            return itemDao.getItemsBayer(longs[0]);
         }
     }
 

@@ -110,7 +110,6 @@ class SessionActivity : AppCompatActivity() {
     private fun initRecyclerView() {
         viewModel.getAllSession().observe(this, Observer {
             it?.let(sessionsAdapter::submitList)
-            Log.e("init recycler view", "Observer calls!")
             if (rv_sessions.adapter!!.itemCount > 0) {
                 rv_sessions.smoothScrollToPosition(rv_sessions.adapter!!.itemCount)
             }

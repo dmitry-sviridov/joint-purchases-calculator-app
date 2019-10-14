@@ -39,11 +39,11 @@ class AddItemFragment : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fr_add_new_item, container, false)
         return root
-
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         viewModel = activity!!.run {
             ViewModelProviders.of(this).get(AddItemViewModel::class.java)
         }
@@ -55,12 +55,10 @@ class AddItemFragment : Fragment() {
     }
 
     private fun initData() {
-        var personsNamesAdapter = activity!!.let {
-            ArrayAdapter<Person>(
-                it,
-                R.layout.spinner_row
-            )
-        }
+        var personsNamesAdapter = ArrayAdapter<Person>(
+            activity!!,
+            R.layout.spinner_row
+        )
         viewModel.getAllPersonsInSession().observe(this, Observer { it ->
             it.reversed().forEach {
                 personsNamesAdapter.add(it)
@@ -73,7 +71,6 @@ class AddItemFragment : Fragment() {
     private fun initRecyclerView() {
         viewModel.getAllPersonsInSession().observe(this, Observer {
             it?.let(personsItemAdapter::submitList)
-            Log.e("init recycler view", "Observer calls!")
             if (rv_persons_item.adapter!!.itemCount > 0) {
                 rv_persons_item.smoothScrollToPosition(rv_persons_item.adapter!!.itemCount)
             }

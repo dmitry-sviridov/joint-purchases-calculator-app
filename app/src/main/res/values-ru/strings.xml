@@ -17,11 +17,12 @@
     <string name="edit_event">Редактирование мероприятия</string>
     <string name="add_item">Новая покупка</string>
     <string name="edit_item">Редактирование покупки</string>
-    <string name="item_title">Item title</string>
-    <string name="item_cost">Item cost</string>
-    <string name="bayer">Bayer</string>
-    <string name="mark_participants_title">mark participants</string>
-    <string name="item_save_btn">Save</string>
-    <string name="items_recycler_list_item_cost">Cost:</string>
+    <string name="item_title">Название покупки</string>
+    <string name="item_cost">Цена покупки</string>
+    <string name="bayer">Покупатель</string>
+    <string name="mark_participants_title">Отметьте участников</string>
+
+    <string name="item_save_btn">Сохранить</string>
+    <string name="items_recycler_list_item_cost">Цена:</string>
 
 </resources>

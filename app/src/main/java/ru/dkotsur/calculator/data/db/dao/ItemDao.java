@@ -10,6 +10,7 @@ import androidx.room.Update;
 import java.util.List;
 
 import ru.dkotsur.calculator.data.db.entity.Item;
+import ru.dkotsur.calculator.data.db.entity.Person;
 
 @Dao
 public interface ItemDao {
@@ -31,4 +32,11 @@ public interface ItemDao {
 
     @Query("SELECT * FROM items WHERE id=:id")
     Item getItemById(long id);
+
+    @Query("SELECT persons.id, persons.name, persons.session_id " +
+            "FROM " +
+            "persons INNER JOIN items " +
+            "ON persons.id=items.person_id " +
+            "WHERE items.id =:itemId")
+    Person getItemsBayer(long itemId);
 }

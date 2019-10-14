@@ -30,7 +30,6 @@ class SessionViewModel: ViewModel() {
         if (text.isNotEmpty()) {
             val saved = Session(text.toString(), getDate())
             sessionRepository.insert(saved)
-            Log.e("INSERT", "session with text = $text was inserted")
         } else {
             Log.e("INSERT", "text is empty")
         }
@@ -44,7 +43,6 @@ class SessionViewModel: ViewModel() {
         val current = Date()
         val formatter = SimpleDateFormat("dd.MM.yyyy")
         val result = formatter.format(current)
-        Log.e("INSERT", "DATE = $result")
         return result
     }
 }

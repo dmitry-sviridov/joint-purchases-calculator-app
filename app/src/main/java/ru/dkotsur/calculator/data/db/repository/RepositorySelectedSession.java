@@ -5,9 +5,7 @@ import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
-import ru.dkotsur.calculator.data.db.dao.ItemDao;
 import ru.dkotsur.calculator.data.db.dao.PersonDao;
 import ru.dkotsur.calculator.data.db.entity.Item;
 import ru.dkotsur.calculator.data.db.entity.Person;

@@ -46,6 +46,13 @@ class ItemsAdapter: ListAdapter<Item, Holder>(DIFF_CALLBACK) {
                     listener.onDeleteItem(getItemAt(pos))
                 }
             }
+
+            itemView.setOnClickListener {
+                val pos = adapterPosition
+                if (pos != RecyclerView.NO_POSITION) {
+                    listener.onItemClicked(getItemAt(pos))
+                }
+            }
         }
     }
 

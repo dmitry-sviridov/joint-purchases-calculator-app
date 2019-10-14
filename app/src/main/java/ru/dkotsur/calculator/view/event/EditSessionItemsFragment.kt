@@ -79,11 +79,12 @@ class EditSessionItemsFragment : Fragment() {
         }
 
         itemsAdapter.setOnItemClickListener(object : ItemsAdapter.onItemClickListener {
-
             override fun onItemClicked(item: Item) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                startActivity(
+                    Intent(activity, AddEditItemActivity::class.java).putExtra(AddEditItemActivity.EXTRA_SESSION_ID, viewModel.getSessionId())
+                        .putExtra(AddEditItemActivity.EXTRA_ITEM_ID, item.id)
+                )
             }
-
             override fun onDeleteItem(item: Item) {
                 viewModel.deleteItem(item)
             }

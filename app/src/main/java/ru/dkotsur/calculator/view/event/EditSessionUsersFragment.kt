@@ -99,7 +99,6 @@ class EditSessionUsersFragment : Fragment() {
     private fun initRecyclerView() {
         viewModel.getAllPersonsInSession().observe(this, Observer {
             it?.let(personsAdapter::submitList)
-            Log.e("init recycler view", "Observer calls!")
             if (rv_persons.adapter!!.itemCount > 0) {
                 rv_persons.smoothScrollToPosition(rv_persons.adapter!!.itemCount)
             }

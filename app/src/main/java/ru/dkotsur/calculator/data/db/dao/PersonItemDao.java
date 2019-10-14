@@ -19,5 +19,4 @@ public interface PersonItemDao {
     @Query("SELECT * FROM persons INNER JOIN persons_items ON " +
             "persons.id=persons_items.person_id WHERE persons_items.item_id = :itemId")
     LiveData<List<Person>> getAllPersonsForItem(final long itemId);
-
 }
