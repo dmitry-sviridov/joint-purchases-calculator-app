@@ -7,7 +7,6 @@ import ru.dkotsur.calculator.data.db.entity.Item
 import ru.dkotsur.calculator.data.db.entity.Person
 import ru.dkotsur.calculator.data.db.repository.RepositoryItem
 import ru.dkotsur.calculator.data.db.repository.RepositorySelectedSession
-import kotlin.math.log
 
 class EditItemViewModel(sessionId: Long, itemId: Long) : ViewModel() {
 
@@ -18,16 +17,25 @@ class EditItemViewModel(sessionId: Long, itemId: Long) : ViewModel() {
     private val repositoryItem = RepositoryItem(sessionId, itemId)
 
     private val allPersonsInSession: LiveData<List<Person>>
+    private val allPersonsInItem: LiveData<List<Person>>
+
+    private val allPersonsInItemID: LiveData<List<Long>>
 
     init {
         mSessionId = sessionId
         mItemId = itemId
         Log.e("1231313123", "session Id = $sessionId itemid = $itemId")
         allPersonsInSession = repositorySelectedSession.getPersonsFromSession(mSessionId)
+        allPersonsInItem = repositoryItem.personsForItem
+        allPersonsInItemID = repositoryItem.allPersonsForItemId
     }
 
     fun getAllPersonsInSession(): LiveData<List<Person>> {
         return allPersonsInSession
+    }
+
+    fun getAllPersonsInItemIDS(): LiveData<List<Long>> {
+        return allPersonsInItemID
     }
 
     fun updateItem(itemTitle: String, itemCost: Double, bayerId: Long, personsIds: List<Long>) {
@@ -38,6 +46,10 @@ class EditItemViewModel(sessionId: Long, itemId: Long) : ViewModel() {
 
     fun getItemsBayer(): Person {
         return repositoryItem.itemsBayer
+    }
+
+    fun getItemById(): Item {
+        return repositoryItem.getItemById(mItemId)
     }
 
 }

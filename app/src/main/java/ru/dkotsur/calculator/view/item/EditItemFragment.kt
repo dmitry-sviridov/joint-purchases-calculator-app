@@ -1,7 +1,7 @@
 package ru.dkotsur.calculator.view.item
 
 import android.os.Bundle
-import android.util.Log
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,16 +57,34 @@ class EditItemFragment: Fragment() {
         )
 
         viewModel.getAllPersonsInSession().observe(this, Observer { it ->
-            it.reversed().forEach {
-                personsNamesAdapter.add(it)
+            it.reversed().forEachIndexed { index, p ->
+                personsNamesAdapter.add(p)
+                if (p.id == viewModel.getItemsBayer().id) {
+                    spinner_bayer_selection.setSelection(index)
+                }
             }
         })
 
         spinner_bayer_selection.adapter = personsNamesAdapter
-        val bayer = viewModel.getItemsBayer()
-        val spinnerPosition = personsNamesAdapter.getPosition(bayer)
-        spinner_bayer_selection.setSelection(spinnerPosition)
+
+        edit_text_item_title.setText(viewModel.getItemById().title)
+        edit_text_items_cost.setText(viewModel.getItemById().cost.toString())
+
+        viewModel.getAllPersonsInItemIDS().observe(this, Observer { it ->
+            it.forEach {
+                markedPersons.add(it)
+            }
+        })
+
     }
+
+    // TODO: Добавить marked persons в switchers
+    // TODO: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // TODO: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // TODO: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // TODO: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // TODO: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // TODO: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     private fun initRecyclerView() {
         viewModel.getAllPersonsInSession().observe(this, Observer {
@@ -86,7 +104,6 @@ class EditItemFragment: Fragment() {
         }
 
         personsItemAdapter.setOnItemClickListener(object : PersonsItemAdapter.onItemClickListener {
-
             override fun onPersonMarkedTrue(personId: Long) {
                 try {
                     markedPersons.add(personId)
@@ -121,4 +138,5 @@ class EditItemFragment: Fragment() {
             activity!!.finish()
         }
     }
+
 }

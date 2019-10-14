@@ -1,7 +1,6 @@
 package ru.dkotsur.calculator.data.db.repository;
 
 import android.os.AsyncTask;
-import android.util.Log;
 import android.util.Pair;
 
 import androidx.lifecycle.LiveData;
@@ -19,6 +18,7 @@ public class RepositoryItem extends Repository {
 
     private long sessionId;
     private long itemId;
+    private LiveData<List<Long>> allPersonsForItemId;
     private LiveData<List<Person>> allPersonsInSession;
     private LiveData<List<Person>> allPersonsForItem;
 
@@ -37,16 +37,28 @@ public class RepositoryItem extends Repository {
         personItemDao = db.personItemDao();
         itemDao = db.itemDao();
         allPersonsInSession = personDao.getPersonsFromSession(sessionId);
+        allPersonsForItem = personItemDao.getAllPersonsForItem(itemId);
+        allPersonsForItemId = personItemDao.getAllPersonsForItemId(itemId);
+
     }
 
-    public Item getItemById(long sessionId) throws ExecutionException, InterruptedException {
-        return new GetItemById(itemDao).execute(sessionId).get();
+    public LiveData<List<Person>> getPersonsForItem() {
+        return allPersonsForItem;
     }
-    public LiveData<List<Person>> getPersonsFromSession(long sessionId) {
+
+    public LiveData<List<Long>> getAllPersonsForItemId() {
+        return allPersonsForItemId;
+    }
+
+    public Item getItemById(long itemId) throws ExecutionException, InterruptedException {
+        return new GetItemById(itemDao).execute(itemId).get();
+    }
+
+    public LiveData<List<Person>> getPersonsFromSession() {
         return allPersonsInSession;
     }
+
     public Person getItemsBayer() throws ExecutionException, InterruptedException {
-        Log.e("DAFDFADF", " session id = " + String.valueOf(sessionId) +"itemID"  + itemId);
         Person result = new GetItemsBayer(itemDao).execute(itemId).get();
         return result;
     }
@@ -54,9 +66,11 @@ public class RepositoryItem extends Repository {
     public long insertItem(Item item) throws ExecutionException, InterruptedException {
         return new InsertItemAsync(itemDao).execute(item).get();
     }
+
     public void updateItem(Item item) {
         new UpdateItemAsync(itemDao).execute(item);
     }
+
     public void deleteItem(Item item) {
         new DeleteItemAsync(itemDao).execute(item);
     }
@@ -65,6 +79,7 @@ public class RepositoryItem extends Repository {
         Pair<Long, List<Long>> data = new Pair<>(itemId, userIds);
         new AddPersonsItemsAsync(personItemDao).execute(data);
     }
+
     private static class InsertItemAsync extends AsyncTask<Item, Void, Long> {
         private ItemDao itemDao;
         public InsertItemAsync(ItemDao itemDao) {
