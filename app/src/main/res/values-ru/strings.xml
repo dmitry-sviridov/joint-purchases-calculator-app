@@ -24,5 +24,6 @@
 
     <string name="item_save_btn">Сохранить</string>
     <string name="items_recycler_list_item_cost">Цена:</string>
+    <string name="toast_incorrect_save_item">Введите название покупки, корректную стоимость и отметьте участников!</string>
 
 </resources>

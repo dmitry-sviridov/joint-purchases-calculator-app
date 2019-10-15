@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -110,15 +111,35 @@ class AddItemFragment : Fragment() {
     private fun initSaveOperation() {
         btn_save_item.setOnClickListener{
             val itemTitle = edit_text_item_title.text.toString()
-            val itemCost = edit_text_items_cost.text.toString().toDouble()
+            val itemCost = edit_text_items_cost.text.toString()
             val bayerId = (spinner_bayer_selection.selectedItem as Person).id
             val personsIds = markedPersons.toList()
 
-            viewModel.saveNewItem(itemTitle = itemTitle, itemCost = itemCost,
-                                    bayerId = bayerId, personsIds = personsIds)
+            if (validateFields(itemTitle, itemCost, personsIds)) {
+                viewModel.saveNewItem(itemTitle = itemTitle, itemCost = itemCost.toDouble(),
+                    bayerId = bayerId, personsIds = personsIds)
 
-            activity!!.finish()
+                activity!!.finish()
+            } else {
+                Toast.makeText(activity,getString(R.string.toast_incorrect_save_item), Toast.LENGTH_SHORT).show()
+            }
+
         }
+    }
+
+    private fun validateFields(
+        itemTitle: String,
+        itemCost: String,
+        personsIds: List<Long>
+    ): Boolean {
+        var result: Boolean
+        try {
+            result = (itemTitle.isNotEmpty() && itemCost.isNotEmpty() && personsIds.isNotEmpty() && itemCost.toDouble() > 0)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return false
+        }
+        return result
     }
 }
 
