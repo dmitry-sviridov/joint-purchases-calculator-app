@@ -12,7 +12,7 @@ import ru.dkotsur.calculator.R
 import ru.dkotsur.calculator.data.db.entity.Person
 
 
-class PersonsItemAdapter: ListAdapter<Person, PersonsItemAdapter.Holder>(DIFF_CALLBACK) {
+class PersonsItemAdapter(val markedPersons: HashSet<Long>) : ListAdapter<Person, PersonsItemAdapter.Holder>(DIFF_CALLBACK) {
 
     lateinit var listener: onItemClickListener
 
@@ -41,11 +41,13 @@ class PersonsItemAdapter: ListAdapter<Person, PersonsItemAdapter.Holder>(DIFF_CA
                     }
                 }
             }
-
         }
 
         fun bind(person: Person) {
             personName.text = person.name
+            if (person.id in markedPersons) {
+                markPerson.isChecked = true
+            }
         }
     }
 
