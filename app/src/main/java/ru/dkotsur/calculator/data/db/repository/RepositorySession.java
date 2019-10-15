@@ -13,7 +13,7 @@ import ru.dkotsur.calculator.data.db.entity.Session;
 
 public class RepositorySession extends Repository{
 
-    final String TAG = RepositorySession.class.getSimpleName();
+    private final String TAG = RepositorySession.class.getSimpleName();
 
     private LiveData<List<Session>> allSessions;
 
@@ -25,10 +25,6 @@ public class RepositorySession extends Repository{
     public void insert(Session session) {
         new InsertSessionAsyncTask(sessionDao).execute(session);
         Log.e(TAG, "Inserting..");
-    }
-
-    public void update(Session session) {
-        new UpdateSessionAsyncTask(sessionDao).execute(session);
     }
 
     public void delete(Session session) {
@@ -58,19 +54,6 @@ public class RepositorySession extends Repository{
         @Override
         protected Void doInBackground(Session... sessions) {
             sessionDao.insert(sessions[0]);
-            return null;
-        }
-    }
-
-    private static class UpdateSessionAsyncTask extends AsyncTask<Session, Void, Void>{
-        private SessionDao sessionDao;
-        public UpdateSessionAsyncTask(SessionDao sessionDao) {
-            this.sessionDao = sessionDao;
-        }
-
-        @Override
-        protected Void doInBackground(Session... sessions) {
-            sessionDao.update(sessions[0]);
             return null;
         }
     }

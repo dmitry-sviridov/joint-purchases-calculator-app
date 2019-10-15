@@ -40,10 +40,6 @@ public class RepositorySelectedSession extends Repository{
         new InsertPersonAsync(personDao).execute(person);
     }
 
-    public void updatePerson(Person person) {
-        new UpdatePersonAsync(personDao).execute(person);
-    }
-
     public void deletePerson(Person person) {
         new DeletePersonAsync(personDao).execute(person);
     }
@@ -57,19 +53,6 @@ public class RepositorySelectedSession extends Repository{
         @Override
         protected Void doInBackground(Person... people) {
             personDao.insert(people[0]);
-            return null;
-        }
-    }
-
-    private static class UpdatePersonAsync extends AsyncTask<Person, Void, Void> {
-        private PersonDao personDao;
-        public UpdatePersonAsync(PersonDao personDao) {
-            this.personDao = personDao;
-        }
-
-        @Override
-        protected Void doInBackground(Person... people) {
-            personDao.update(people[0]);
             return null;
         }
     }

@@ -23,4 +23,7 @@ public interface PersonItemDao {
     @Query("SELECT person_id FROM persons_items WHERE item_id=:itemId")
     LiveData<List<Long>> getAllPersonsForItemId(final long itemId);
 
+    @Query("DELETE FROM persons_items WHERE item_id=:itemId")
+    void delete(long itemId);
+
 }

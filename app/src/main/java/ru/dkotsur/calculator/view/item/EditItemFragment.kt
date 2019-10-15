@@ -118,12 +118,13 @@ class EditItemFragment: Fragment() {
 
     private fun initSaveOperation() {
         btn_save_item.setOnClickListener{
+            val itemId = (activity as AddEditItemActivity).currentItemId()
             val itemTitle = edit_text_item_title.text.toString()
             val itemCost = edit_text_items_cost.text.toString().toDouble()
             val bayerId = (spinner_bayer_selection.selectedItem as Person).id
             val personsIds = markedPersons.toList()
 
-            viewModel.updateItem(itemTitle = itemTitle, itemCost = itemCost,
+            viewModel.updateItem(itemId, itemTitle = itemTitle, itemCost = itemCost,
                 bayerId = bayerId, personsIds = personsIds)
 
             activity!!.finish()

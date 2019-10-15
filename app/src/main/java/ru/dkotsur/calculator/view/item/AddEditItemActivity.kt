@@ -23,12 +23,14 @@ class AddEditItemActivity : AppCompatActivity() {
 
 
     private lateinit var viewModel: ViewModel
+    private var sessionId: Long = 0L
+    private var itemId: Long = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_iem)
-        val sessionId = intent.getLongExtra(EXTRA_SESSION_ID, -1L)
-        val itemId = intent.getLongExtra(EXTRA_ITEM_ID, -1L)
+        sessionId = intent.getLongExtra(EXTRA_SESSION_ID, -1L)
+        itemId = intent.getLongExtra(EXTRA_ITEM_ID, -1L)
 
         checkIsEdit(sessionId, itemId)
     }
@@ -61,7 +63,10 @@ class AddEditItemActivity : AppCompatActivity() {
             var factory = EditItemViewModelFactory(sessionId, itemId)
             ViewModelProviders.of(this, factory).get(EditItemViewModel::class.java)
         }
+    }
 
+    fun currentItemId(): Long {
+        return itemId
     }
 
 

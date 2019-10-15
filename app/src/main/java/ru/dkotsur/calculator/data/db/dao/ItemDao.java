@@ -18,8 +18,8 @@ public interface ItemDao {
     @Insert
     long insert(Item item);
 
-    @Update
-    void update(Item item);
+    @Query("UPDATE items SET title=:title, cost=:cost, person_id=:bayerId WHERE id=:id")
+    void update(long id, String title, Double cost, long bayerId);
 
     @Delete
     void delete(Item item);

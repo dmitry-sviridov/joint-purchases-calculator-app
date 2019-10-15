@@ -38,9 +38,16 @@ class EditItemViewModel(sessionId: Long, itemId: Long) : ViewModel() {
         return allPersonsInItemID
     }
 
-    fun updateItem(itemTitle: String, itemCost: Double, bayerId: Long, personsIds: List<Long>) {
-        val item = Item(itemTitle, itemCost, bayerId, mSessionId)
-        var itemId = repositoryItem.insertItem(item)
+    fun updateItem(
+        itemId: Long,
+        personsIds: List<Long>,
+        itemTitle: String,
+        itemCost: Double,
+        bayerId: Long)
+    {
+        val triple: Triple<String, Double, List<Long>> = Triple(itemTitle, itemCost, listOf(itemId, bayerId))
+        repositoryItem.updateItem(triple)
+        repositoryItem.clearPersonItemForItem(itemId)
         repositoryItem.insertPersonsItems(itemId, personsIds)
     }
 

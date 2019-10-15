@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import kotlin.Triple;
 import ru.dkotsur.calculator.data.db.dao.ItemDao;
 import ru.dkotsur.calculator.data.db.dao.PersonItemDao;
 import ru.dkotsur.calculator.data.db.entity.Item;
@@ -54,6 +55,10 @@ public class RepositoryItem extends Repository {
         return new GetItemById(itemDao).execute(itemId).get();
     }
 
+    public void clearPersonItemForItem(long itemId) {
+        new ClearPersonItemForItem(personItemDao).execute(itemId);
+    }
+
     public LiveData<List<Person>> getPersonsFromSession() {
         return allPersonsInSession;
     }
@@ -67,8 +72,8 @@ public class RepositoryItem extends Repository {
         return new InsertItemAsync(itemDao).execute(item).get();
     }
 
-    public void updateItem(Item item) {
-        new UpdateItemAsync(itemDao).execute(item);
+    public void updateItem(Triple<String, Double, List<Long>> triple) {
+        new UpdateItemAsync(itemDao).execute(triple);
     }
 
     public void deleteItem(Item item) {
@@ -105,15 +110,16 @@ public class RepositoryItem extends Repository {
         }
     }
 
-    private static class UpdateItemAsync extends AsyncTask<Item, Void, Void> {
+    private static class UpdateItemAsync extends AsyncTask<Triple<String, Double, List<Long>>, Void, Void> {
         private ItemDao itemDao;
         UpdateItemAsync(ItemDao itemDao) {
             this.itemDao = itemDao;
         }
 
+
         @Override
-        protected Void doInBackground(Item... items) {
-            itemDao.update(items[0]);
+        protected Void doInBackground(Triple<String, Double, List<Long>>... triples) {
+            itemDao.update(triples[0].component3().get(0), triples[0].component1(), triples[0].component2(), triples[0].component3().get(1));
             return null;
         }
     }
@@ -160,6 +166,21 @@ public class RepositoryItem extends Repository {
         @Override
         protected Person doInBackground(Long... longs) {
             return itemDao.getItemsBayer(longs[0]);
+        }
+    }
+
+    private static class ClearPersonItemForItem extends AsyncTask<Long, Void, Void> {
+
+        private PersonItemDao personItemDao;
+
+        public ClearPersonItemForItem(PersonItemDao personItemDao) {
+            this.personItemDao = personItemDao;
+        }
+
+        @Override
+        protected Void doInBackground(Long... longs) {
+            personItemDao.delete(longs[0]);
+            return null;
         }
     }
 
