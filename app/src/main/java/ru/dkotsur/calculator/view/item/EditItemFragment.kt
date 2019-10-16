@@ -1,6 +1,7 @@
 package ru.dkotsur.calculator.view.item
 
 import android.os.Bundle
+import android.os.SystemClock.sleep
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.btn_save_item.*
@@ -25,9 +27,9 @@ class EditItemFragment: Fragment() {
     }
 
     private lateinit var viewModel: EditItemViewModel
-    private lateinit var personsGenerated: HashMap<View, Long>
     private lateinit var personsLayout: List<View>
-    private val markedPersons = HashSet<Long>()
+    private var markedPersons = HashSet<Long>()
+    private val personsNamesIds = LinkedHashMap<String, Long>()
     private lateinit var root: View
 
     override fun onCreateView(
@@ -44,13 +46,20 @@ class EditItemFragment: Fragment() {
         viewModel = activity!!.run {
             ViewModelProviders.of(this).get(EditItemViewModel::class.java)
         }
+        personsLayout = ArrayList<View>()
 
         fetchData()
-        initCustomViewWithPersons()
         initSaveOperation()
     }
 
     private fun fetchData() {
+        viewModel.getAllPersonsInItemIDS().observe(this, Observer { it ->
+            it.forEach {
+                markedPersons.add(it)
+            }
+        })
+
+
         var personsNamesAdapter = ArrayAdapter<Person>(
             activity!!,
             R.layout.spinner_row
@@ -62,6 +71,8 @@ class EditItemFragment: Fragment() {
                 if (p.id == viewModel.getItemsBayer().id) {
                     spinner_bayer_selection.setSelection(index)
                 }
+                personsNamesIds.put(p.name, p.id)
+                initCustomViewWithPersons(p.name, p.id)
             }
         })
 
@@ -69,43 +80,29 @@ class EditItemFragment: Fragment() {
 
         edit_text_item_title.setText(viewModel.getItemById().title)
         edit_text_items_cost.setText(viewModel.getItemById().cost.toString())
-
-        viewModel.getAllPersonsInItemIDS().observe(this, Observer { it ->
-            it.forEach {
-                markedPersons.add(it)
-                Log.e("ADD PERSON TO MARKED" , "ADDED WITH ID = $it")
-            }
-        })
     }
 
-    private fun initCustomViewWithPersons() {
-        personsGenerated = HashMap()
-        personsLayout = ArrayList<View>()
-        val smth = viewModel.getAllPersonsInSession().observe(this, Observer { it ->
+    private fun initCustomViewWithPersons(name: String, id: Long) {
+        val container = layoutInflater.inflate(R.layout.c_persons_in_item, null)
+        val textView = container.findViewById<TextView>(R.id.tw_person_in_item)
+        val switcher = container.findViewById<SwitchCompat>(R.id.switcher_set_person)
 
-            it.forEach {
-                val container = layoutInflater.inflate(R.layout.c_persons_in_item, null)
-                val textView = container.findViewById<TextView>(R.id.tw_person_in_item)
-                val switcher = container.findViewById<SwitchCompat>(R.id.switcher_set_person)
+        textView.text = name
+        (personsLayout as ArrayList<View>).add(container)
+        linear_container.addView(container)
 
-                textView.text = it.name
-                (personsLayout as ArrayList<View>).add(container)
-                personsGenerated.put(container, it.id)
-                linear_container.addView(container)
-
-                val listener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
-                    if (isChecked) {
-                        markedPersons.add(it.id)
-                        Log.e("Debug", "Added person with name = ${it.name}")
-                    } else {
-                        markedPersons.remove(it.id)
-                        Log.e("Debug", "Removed person with name = ${it.name}")
-                    }
-                }
-
-                switcher.setOnCheckedChangeListener(listener)
+        val listener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                markedPersons.add(id)
+            } else {
+                markedPersons.remove(id)
             }
-        })
+        }
+        if (id in markedPersons) {
+            switcher.setOnCheckedChangeListener(null)
+            switcher.isChecked = true
+        }
+        switcher.setOnCheckedChangeListener(listener)
 
     }
 

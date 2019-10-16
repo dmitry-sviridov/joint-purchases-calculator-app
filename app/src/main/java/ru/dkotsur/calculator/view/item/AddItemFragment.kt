@@ -34,7 +34,7 @@ class AddItemFragment : Fragment() {
     private lateinit var viewModel: AddItemViewModel
     private lateinit var personsGenerated: HashMap<View, Long>
     private lateinit var personsLayout: List<View>
-    private val markedPersons = HashSet<Long>()
+    private var markedPersons = HashSet<Long>()
     private lateinit var root: View
 
     override fun onCreateView(
@@ -96,46 +96,6 @@ class AddItemFragment : Fragment() {
             }
         })
     }
-
-//    private fun initRecyclerView() {
-//        viewModel.getAllPersonsInSession().observe(this, Observer {
-//            it?.let(personsItemAdapter::submitList)
-//            if (rv_persons_item.adapter!!.itemCount > 0) {
-//                rv_persons_item.smoothScrollToPosition(rv_persons_item.adapter!!.itemCount)
-//            }
-//        })
-//
-//        rv_persons_item.apply {
-//            layoutManager = LinearLayoutManager(this.context).apply {
-//                stackFromEnd = true
-//                reverseLayout = true
-//            }
-//            adapter = personsItemAdapter
-//            setHasFixedSize(true)
-//        }
-//
-//        personsItemAdapter.setOnItemClickListener(object : PersonsItemAdapter.onItemClickListener {
-//
-//            override fun onPersonMarkedTrue(personId: Long) {
-//                try {
-//                    markedPersons.add(personId)
-//                } catch (e: Exception) {
-//                    e.stackTrace
-//                }
-//            }
-//
-//            override fun onPersonMarkedFalse(personId: Long) {
-//                try {
-//                    markedPersons.remove(personId)
-//                } catch (e: Exception) {
-//                    e.stackTrace
-//                }
-//            }
-//
-//        })
-//
-//
-//    }
 
     private fun initSaveOperation() {
         btn_save_item.setOnClickListener{
