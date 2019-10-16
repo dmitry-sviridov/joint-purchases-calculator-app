@@ -17,7 +17,7 @@ class EditItemViewModel(sessionId: Long, itemId: Long) : ViewModel() {
 
     private val allPersonsInSession: LiveData<List<Person>>
     private val allPersonsInItem: LiveData<List<Person>>
-    private val allPersonsInItemID: LiveData<List<Long>>
+    private val allPersonsInItemID: List<Long>
 
     init {
         mSessionId = sessionId
@@ -31,7 +31,7 @@ class EditItemViewModel(sessionId: Long, itemId: Long) : ViewModel() {
         return allPersonsInSession
     }
 
-    fun getAllPersonsInItemIDS(): LiveData<List<Long>> {
+    fun getAllPersonsInItemIDS(): List<Long> {
         return allPersonsInItemID
     }
 

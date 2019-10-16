@@ -31,7 +31,6 @@ class AddEditItemActivity : AppCompatActivity() {
         setContentView(R.layout.activity_add_iem)
         sessionId = intent.getLongExtra(EXTRA_SESSION_ID, -1L)
         itemId = intent.getLongExtra(EXTRA_ITEM_ID, -1L)
-
         checkIsEdit(sessionId, itemId)
     }
 

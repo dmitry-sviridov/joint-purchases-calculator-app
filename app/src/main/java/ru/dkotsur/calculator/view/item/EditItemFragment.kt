@@ -1,15 +1,15 @@
 package ru.dkotsur.calculator.view.item
 
 import android.os.Bundle
-import android.os.SystemClock.sleep
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.ArrayAdapter
+import android.widget.CompoundButton
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.btn_save_item.*
@@ -29,7 +29,6 @@ class EditItemFragment: Fragment() {
     private lateinit var viewModel: EditItemViewModel
     private lateinit var personsLayout: List<View>
     private var markedPersons = HashSet<Long>()
-    private val personsNamesIds = LinkedHashMap<String, Long>()
     private lateinit var root: View
 
     override fun onCreateView(
@@ -53,13 +52,7 @@ class EditItemFragment: Fragment() {
     }
 
     private fun fetchData() {
-        viewModel.getAllPersonsInItemIDS().observe(this, Observer { it ->
-            it.forEach {
-                markedPersons.add(it)
-            }
-        })
-
-
+        markedPersons.addAll(viewModel.getAllPersonsInItemIDS())
         var personsNamesAdapter = ArrayAdapter<Person>(
             activity!!,
             R.layout.spinner_row
@@ -71,13 +64,11 @@ class EditItemFragment: Fragment() {
                 if (p.id == viewModel.getItemsBayer().id) {
                     spinner_bayer_selection.setSelection(index)
                 }
-                personsNamesIds.put(p.name, p.id)
                 initCustomViewWithPersons(p.name, p.id)
             }
         })
 
         spinner_bayer_selection.adapter = personsNamesAdapter
-
         edit_text_item_title.setText(viewModel.getItemById().title)
         edit_text_items_cost.setText(viewModel.getItemById().cost.toString())
     }

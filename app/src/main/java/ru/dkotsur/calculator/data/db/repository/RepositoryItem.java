@@ -19,7 +19,7 @@ public class RepositoryItem extends Repository {
 
     private long sessionId;
     private long itemId;
-    private LiveData<List<Long>> allPersonsForItemId;
+    private List<Long> allPersonsForItemId;
     private LiveData<List<Person>> allPersonsInSession;
     private LiveData<List<Person>> allPersonsForItem;
 
@@ -47,7 +47,7 @@ public class RepositoryItem extends Repository {
         return allPersonsForItem;
     }
 
-    public LiveData<List<Long>> getAllPersonsForItemId() {
+    public List<Long> getAllPersonsForItemId() {
         return allPersonsForItemId;
     }
 

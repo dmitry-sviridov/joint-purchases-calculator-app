@@ -15,6 +15,7 @@ public class App extends Application {
         super.onCreate();
         instance = this;
         database = Room.databaseBuilder(this, CalculatorDatabase.class, "calculator_db")
+                .allowMainThreadQueries()
                 .build();
     }
 
