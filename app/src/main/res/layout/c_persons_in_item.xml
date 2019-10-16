@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/tw_person_in_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ваня Иванов"
+        android:textSize="20sp"
+        android:ellipsize="end"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switcher_set_person"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true">
+
+    </androidx.appcompat.widget.SwitchCompat>
+
+</RelativeLayout>

@@ -1,19 +1,20 @@
 package ru.dkotsur.calculator.view.item
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
+import android.widget.*
+import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.btn_save_item.*
 import kotlinx.android.synthetic.main.fr_add_new_item.*
 import ru.dkotsur.calculator.R
 import ru.dkotsur.calculator.data.db.entity.Person
-import ru.dkotsur.calculator.view.item.adapter.PersonsItemAdapter
+import ru.dkotsur.calculator.utils.Helpers
 import ru.dkotsur.calculator.viewmodel.EditItemViewModel
 
 class EditItemFragment: Fragment() {
@@ -24,15 +25,16 @@ class EditItemFragment: Fragment() {
     }
 
     private lateinit var viewModel: EditItemViewModel
-    private lateinit var personsItemAdapter: PersonsItemAdapter
-
+    private lateinit var personsGenerated: HashMap<View, Long>
+    private lateinit var personsLayout: List<View>
     private val markedPersons = HashSet<Long>()
+    private lateinit var root: View
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fr_add_new_item, container, false)
+        root = inflater.inflate(R.layout.fr_add_new_item, container, false)
         return root
     }
 
@@ -44,8 +46,7 @@ class EditItemFragment: Fragment() {
         }
 
         fetchData()
-        personsItemAdapter = PersonsItemAdapter(markedPersons)
-        initRecyclerView()
+        initCustomViewWithPersons()
         initSaveOperation()
     }
 
@@ -72,47 +73,39 @@ class EditItemFragment: Fragment() {
         viewModel.getAllPersonsInItemIDS().observe(this, Observer { it ->
             it.forEach {
                 markedPersons.add(it)
+                Log.e("ADD PERSON TO MARKED" , "ADDED WITH ID = $it")
             }
         })
-
     }
 
-    private fun initRecyclerView() {
-        viewModel.getAllPersonsInSession().observe(this, Observer {
-            it?.let(personsItemAdapter::submitList)
-            if (rv_persons_item.adapter!!.itemCount > 0) {
-                rv_persons_item.smoothScrollToPosition(rv_persons_item.adapter!!.itemCount)
+    private fun initCustomViewWithPersons() {
+        personsGenerated = HashMap()
+        personsLayout = ArrayList<View>()
+        val smth = viewModel.getAllPersonsInSession().observe(this, Observer { it ->
+
+            it.forEach {
+                val container = layoutInflater.inflate(R.layout.c_persons_in_item, null)
+                val textView = container.findViewById<TextView>(R.id.tw_person_in_item)
+                val switcher = container.findViewById<SwitchCompat>(R.id.switcher_set_person)
+
+                textView.text = it.name
+                (personsLayout as ArrayList<View>).add(container)
+                personsGenerated.put(container, it.id)
+                linear_container.addView(container)
+
+                val listener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
+                    if (isChecked) {
+                        markedPersons.add(it.id)
+                        Log.e("Debug", "Added person with name = ${it.name}")
+                    } else {
+                        markedPersons.remove(it.id)
+                        Log.e("Debug", "Removed person with name = ${it.name}")
+                    }
+                }
+
+                switcher.setOnCheckedChangeListener(listener)
             }
         })
-
-        rv_persons_item.apply {
-            layoutManager = LinearLayoutManager(this.context).apply {
-                stackFromEnd = true
-                reverseLayout = true
-            }
-            adapter = personsItemAdapter
-            setHasFixedSize(true)
-        }
-
-        personsItemAdapter.setOnItemClickListener(object : PersonsItemAdapter.onItemClickListener {
-            override fun onPersonMarkedTrue(personId: Long) {
-                try {
-                    markedPersons.add(personId)
-                } catch (e: Exception) {
-                    e.stackTrace
-                }
-            }
-
-            override fun onPersonMarkedFalse(personId: Long) {
-                try {
-                    markedPersons.remove(personId)
-                } catch (e: Exception) {
-                    e.stackTrace
-                }
-            }
-
-        })
-
 
     }
 
@@ -120,15 +113,17 @@ class EditItemFragment: Fragment() {
         btn_save_item.setOnClickListener{
             val itemId = (activity as AddEditItemActivity).currentItemId()
             val itemTitle = edit_text_item_title.text.toString()
-            val itemCost = edit_text_items_cost.text.toString().toDouble()
+            val itemCost = edit_text_items_cost.text.toString()
             val bayerId = (spinner_bayer_selection.selectedItem as Person).id
             val personsIds = markedPersons.toList()
 
-            viewModel.updateItem(itemId, itemTitle = itemTitle, itemCost = itemCost,
-                bayerId = bayerId, personsIds = personsIds)
-
-            activity!!.finish()
+            if (Helpers.validateFields(itemTitle, itemCost, personsIds)) {
+                viewModel.updateItem(itemId, itemTitle = itemTitle, itemCost = itemCost.toDouble(),
+                    bayerId = bayerId, personsIds = personsIds)
+                activity!!.finish()
+            } else {
+                Toast.makeText(activity,getString(R.string.toast_incorrect_save_item), Toast.LENGTH_SHORT).show()
+            }
         }
     }
-
 }
