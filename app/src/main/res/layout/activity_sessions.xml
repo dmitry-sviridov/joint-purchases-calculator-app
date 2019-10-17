@@ -22,6 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/edit_event"
+            android:textColor="@color/cardview_light_background"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
 
             />
@@ -33,6 +34,7 @@
         android:id="@+id/edit_session_tl"
         android:background="@color/colorPrimary"
         app:tabSelectedTextColor="@color/cardview_light_background"
+        app:tabTextColor="@color/cardview_light_background"
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/ThemeOverlay.MaterialComponents.ActionBar">
     </com.google.android.material.tabs.TabLayout>

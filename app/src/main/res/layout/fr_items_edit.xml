@@ -56,19 +56,16 @@
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
                         android:textSize="14sp" />
-
                     <Space
                         android:layout_width="wrap_content"
                         android:layout_height="4dp">
                     </Space>
-
                     <LinearLayout
                         android:layout_marginLeft="16dp"
                         android:layout_marginRight="16dp"
                         android:orientation="horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
-
                         <TextView
                             android:text="@string/bayer"
                             android:layout_marginLeft="16dp"
@@ -85,18 +82,10 @@
                             android:layout_height="wrap_content">
 
                         </androidx.appcompat.widget.AppCompatSpinner>
-
                     </LinearLayout>
-
-
-
-
                 </LinearLayout>
 
-
             </androidx.cardview.widget.CardView>
-
-
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/container_card_view"
