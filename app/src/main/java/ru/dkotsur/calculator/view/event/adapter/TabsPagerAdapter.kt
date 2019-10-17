@@ -5,8 +5,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import ru.dkotsur.calculator.R
-import ru.dkotsur.calculator.view.event.EditSessionItemsFragment
-import ru.dkotsur.calculator.view.event.EditSessionUsersFragment
+import ru.dkotsur.calculator.view.event.ItemsListFragment
+import ru.dkotsur.calculator.view.event.PersonsListFragment
 
 
 
@@ -14,8 +14,8 @@ class TabsPagerAdapter(fragmentManager: FragmentManager, private var context: Co
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            0 -> EditSessionUsersFragment()
-            else -> EditSessionItemsFragment()
+            0 -> PersonsListFragment()
+            else -> ItemsListFragment()
         }
     }
 

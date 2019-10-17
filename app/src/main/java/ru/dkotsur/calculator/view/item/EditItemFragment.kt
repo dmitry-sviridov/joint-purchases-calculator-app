@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.btn_save_item.*
-import kotlinx.android.synthetic.main.fr_add_new_item.*
+import kotlinx.android.synthetic.main.fr_items_edit.*
 import ru.dkotsur.calculator.R
 import ru.dkotsur.calculator.data.db.entity.Person
 import ru.dkotsur.calculator.utils.Helpers
@@ -35,7 +35,7 @@ class EditItemFragment: Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        root = inflater.inflate(R.layout.fr_add_new_item, container, false)
+        root = inflater.inflate(R.layout.fr_items_edit, container, false)
         return root
     }
 
@@ -59,7 +59,7 @@ class EditItemFragment: Fragment() {
         )
 
         viewModel.getAllPersonsInSession().observe(this, Observer { it ->
-            it.reversed().forEachIndexed { index, p ->
+            it.forEachIndexed { index, p ->
                 personsNamesAdapter.add(p)
                 if (p.id == viewModel.getItemsBayer().id) {
                     spinner_bayer_selection.setSelection(index)
@@ -99,7 +99,7 @@ class EditItemFragment: Fragment() {
 
     private fun initSaveOperation() {
         btn_save_item.setOnClickListener{
-            val itemId = (activity as AddEditItemActivity).currentItemId()
+            val itemId = (activity as ItemActivity).currentItemId()
             val itemTitle = edit_text_item_title.text.toString()
             val itemCost = edit_text_items_cost.text.toString()
             val bayerId = (spinner_bayer_selection.selectedItem as Person).id

@@ -2,7 +2,6 @@ package ru.dkotsur.calculator.view.item
 
 
 import android.os.Bundle
-import android.provider.SyncStateContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,13 +13,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.btn_save_item.*
-import kotlinx.android.synthetic.main.c_persons_in_item.*
-import kotlinx.android.synthetic.main.fr_add_new_item.*
+import kotlinx.android.synthetic.main.fr_items_edit.*
 import ru.dkotsur.calculator.R
 import ru.dkotsur.calculator.data.db.entity.Person
 import ru.dkotsur.calculator.utils.Helpers
 import ru.dkotsur.calculator.viewmodel.AddItemViewModel
-import java.lang.Exception
 
 /**
  * A simple [Fragment] subclass.
@@ -41,7 +38,7 @@ class AddItemFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        root = inflater.inflate(R.layout.fr_add_new_item, container, false)
+        root = inflater.inflate(R.layout.fr_items_edit, container, false)
         return root
     }
 
@@ -63,7 +60,7 @@ class AddItemFragment : Fragment() {
             R.layout.spinner_row
         )
         viewModel.getAllPersonsInSession().observe(this, Observer { it ->
-            it.reversed().forEach {
+            it.forEach {
                 personsNamesAdapter.add(it)
             }
         })

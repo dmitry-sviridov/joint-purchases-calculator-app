@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".view.item.AddEditItemActivity" />
+        <activity android:name=".view.item.ItemActivity" />
         <activity
             android:name=".view.SplashScreen"
             android:screenOrientation="portrait"
@@ -23,7 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.event.EditSessionActivity" />
+        <activity android:name=".view.event.EventActivity" />
         <activity
             android:name=".view.sessions.SessionActivity"
             android:screenOrientation="portrait" />

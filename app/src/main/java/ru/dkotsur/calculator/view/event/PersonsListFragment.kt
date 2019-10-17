@@ -3,7 +3,6 @@ package ru.dkotsur.calculator.view.event
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,14 +17,14 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.android.synthetic.main.fr_edit_users_in_session.*
+import kotlinx.android.synthetic.main.fr_users_list.*
 import ru.dkotsur.calculator.R
 import ru.dkotsur.calculator.data.db.entity.Person
 import ru.dkotsur.calculator.view.event.adapter.PersonsAdapter
 import ru.dkotsur.calculator.view.event.adapter.PersonsAdapter.onItemClickListener
-import ru.dkotsur.calculator.viewmodel.EditSessionViewModel
+import ru.dkotsur.calculator.viewmodel.EventViewModel
 
-class EditSessionUsersFragment : Fragment() {
+class PersonsListFragment : Fragment() {
 
     private lateinit var sheetBehavior: BottomSheetBehavior<View>
     private lateinit var bottomSheet: LinearLayout
@@ -36,17 +35,17 @@ class EditSessionUsersFragment : Fragment() {
 
 
     companion object {
-        fun newInstance() = EditSessionUsersFragment()
+        fun newInstance() = PersonsListFragment()
     }
 
-    private lateinit var viewModel: EditSessionViewModel
+    private lateinit var viewModel: EventViewModel
 
     override fun onCreateView(
 
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val root = inflater.inflate(R.layout.fr_edit_users_in_session, container, false)
+        val root = inflater.inflate(R.layout.fr_users_list, container, false)
         initBottomSheet(root)
         initFab(root)
         editTextUserName.setOnEditorActionListener { v, actionId, event ->
@@ -65,7 +64,7 @@ class EditSessionUsersFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = activity!!.run {
-            ViewModelProviders.of(this).get(EditSessionViewModel::class.java)
+            ViewModelProviders.of(this).get(EventViewModel::class.java)
         }
         imm = activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         personsAdapter = PersonsAdapter()

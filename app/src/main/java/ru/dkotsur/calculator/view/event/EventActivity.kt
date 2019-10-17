@@ -1,25 +1,18 @@
 package ru.dkotsur.calculator.view.event
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
-import kotlinx.android.synthetic.main.activity_edit_session.*
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fr_edit_users_in_session.*
+import kotlinx.android.synthetic.main.activity_sessions.*
 import ru.dkotsur.calculator.R
-import ru.dkotsur.calculator.data.db.entity.Person
-import ru.dkotsur.calculator.view.event.adapter.PersonsAdapter
 import ru.dkotsur.calculator.view.event.adapter.TabsPagerAdapter
-import ru.dkotsur.calculator.viewmodel.EditSessionViewModel
-import ru.dkotsur.calculator.viewmodel.factory.EditSessionViewModelFactory
+import ru.dkotsur.calculator.viewmodel.EventViewModel
+import ru.dkotsur.calculator.viewmodel.factory.EventViewModelFactory
 
 
-class EditSessionActivity : AppCompatActivity() {
+class EventActivity : AppCompatActivity() {
 
     companion object {
         val EXTRA_ID = "ru.dkotsur.calculator.EDITID"
@@ -27,18 +20,18 @@ class EditSessionActivity : AppCompatActivity() {
     }
 
     private var sessionId: Long = 0
-    private lateinit var viewModel: EditSessionViewModel
+    private lateinit var viewModel: EventViewModel
     lateinit var sessionTitle: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edit_session)
+        setContentView(R.layout.activity_sessions)
         sessionId = intent.getLongExtra(EXTRA_ID, 0)
         sessionTitle = intent.getStringExtra(EXTRA_TITLE)
 
         var editSessionViewModelFactory =
-            EditSessionViewModelFactory(sessionId)
-        viewModel = ViewModelProviders.of(this, editSessionViewModelFactory).get(EditSessionViewModel::class.java)
+            EventViewModelFactory(sessionId)
+        viewModel = ViewModelProviders.of(this, editSessionViewModelFactory).get(EventViewModel::class.java)
 
         edit_activity_title.text = """${getString(R.string.edit_event)} '$sessionTitle'"""
 
