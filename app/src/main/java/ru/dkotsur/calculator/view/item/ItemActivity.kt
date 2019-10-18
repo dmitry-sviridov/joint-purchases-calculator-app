@@ -1,5 +1,6 @@
 package ru.dkotsur.calculator.view.item
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -7,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_item.*
 import ru.dkotsur.calculator.R
+import ru.dkotsur.calculator.view.result.CalculationActivity
 import ru.dkotsur.calculator.viewmodel.AddItemViewModel
 import ru.dkotsur.calculator.viewmodel.EditItemViewModel
 import ru.dkotsur.calculator.viewmodel.factory.AddItemViewModelFactory
@@ -65,6 +67,12 @@ class ItemActivity : AppCompatActivity() {
 
     fun currentItemId(): Long {
         return itemId
+    }
+
+    fun runResultActivity() {
+        val intent = Intent(this@ItemActivity, CalculationActivity::class.java)
+        intent.putExtra(CalculationActivity.EXTRA_SESSION_ID, sessionId)
+        startActivity(intent)
     }
 
 

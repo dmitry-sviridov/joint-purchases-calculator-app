@@ -1,5 +1,6 @@
 package ru.dkotsur.calculator.viewmodel
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ru.dkotsur.calculator.data.CalculationResult
 import ru.dkotsur.calculator.data.db.entity.Item
@@ -17,7 +18,7 @@ class ResultViewModel(sessionId: Long): ViewModel() {
     private var personsList = ArrayList<Person>()
     private val itemsList: List<Item>
 
-    private var resultList  = ArrayList<CalculationResult>()
+    private var resultList  = MutableLiveData<List<CalculationResult>>()
 
     init {
         personsList.addAll(repositorySelectedSession.personsList)
@@ -26,13 +27,13 @@ class ResultViewModel(sessionId: Long): ViewModel() {
         calculateBalances()
     }
 
-    fun fillItemsWithPersons() {
+    private fun fillItemsWithPersons() {
         itemsList.forEach {
             it.addUsers(repositoryItem.getPersonsList(it.id))
         }
     }
 
-    fun calculateBalances() {
+    private fun calculateBalances() {
         itemsList.forEach {
             repositoryItem.getPersonById(it.bayerId).plusBudget(it.cost.toBigDecimal())
             for (user in it.users) {
@@ -41,7 +42,7 @@ class ResultViewModel(sessionId: Long): ViewModel() {
         }
     }
 
-    fun calculateTransactions() {
+    fun calculateTransactions(): MutableLiveData<CalculationResult> {
         var first = 0
         var last: Int
 
@@ -58,8 +59,11 @@ class ResultViewModel(sessionId: Long): ViewModel() {
             } else {
                 delta = personsList.get(first).budget.abs()
             }
-            resultList.add(CalculationResult(personsList.get(first).name,
-                personsList.get(first).name, delta.toDouble()))
+
+//            resultList.postValue()
+//
+//                (CalculationResult(personsList.get(first).name,
+//                personsList.get(first).name, delta.toDouble()))
             personsList.get(first).plusBudget(delta)
             personsList.get(last).minusBudget(delta)
 
@@ -70,8 +74,11 @@ class ResultViewModel(sessionId: Long): ViewModel() {
                 }
             }
         }
+
+        return resultList
     }
 
+    //TODO FIX
 
 
 }
