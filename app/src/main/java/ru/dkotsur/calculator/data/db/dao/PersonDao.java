@@ -28,4 +28,10 @@ public interface PersonDao {
 
     @Query("SELECT COUNT(*) FROM persons WHERE session_id=:sessionId")
     LiveData<Integer> getPersonsCountFromSession(long sessionId);
+
+    @Query("SELECT * FROM persons WHERE session_id=:sessionId")
+    List<Person> getPersonList(long sessionId);
+
+    @Query("SELECT * FROM persons WHERE id=:personId")
+    Person getPersonById(long personId);
 }

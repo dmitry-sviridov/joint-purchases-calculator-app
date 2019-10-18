@@ -3,7 +3,10 @@ package ru.dkotsur.calculator.data.db.entity;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+
+import java.math.BigDecimal;
 
 import static androidx.room.ForeignKey.CASCADE;
 
@@ -12,7 +15,7 @@ import static androidx.room.ForeignKey.CASCADE;
             parentColumns = "id",
             childColumns = "session_id",
             onDelete = CASCADE))
-public class Person {
+public class Person implements Comparable<Person> {
 
     @PrimaryKey(autoGenerate = true)
     private long id;
@@ -21,9 +24,13 @@ public class Person {
     @ColumnInfo(name = "session_id")
     private long sessionId;
 
+    @Ignore
+    private BigDecimal budget;
+
     public Person(String name, long sessionId) {
         this.name = name;
         this.sessionId = sessionId;
+        budget = BigDecimal.ZERO;
     }
 
     public long getId() {
@@ -53,5 +60,23 @@ public class Person {
     @Override
     public String toString() {
         return name;
+    }
+
+
+    @Override
+    public int compareTo(Person person) {
+        return (int) ((budget.doubleValue() - person.budget.doubleValue())*1000);
+    }
+
+    public void plusBudget(BigDecimal delta) {
+        budget = budget.add(delta);
+    }
+
+    public void minusBudget(BigDecimal delta) {
+        budget = budget.subtract(delta);
+    }
+
+    public BigDecimal getBudget() {
+        return budget;
     }
 }

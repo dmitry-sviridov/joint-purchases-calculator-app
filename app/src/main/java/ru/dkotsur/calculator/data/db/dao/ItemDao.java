@@ -27,6 +27,9 @@ public interface ItemDao {
     @Query("SELECT * FROM items WHERE session_id=:session_id")
     LiveData<List<Item>> getSessionsItems(long session_id);
 
+    @Query("SELECT * FROM items WHERE session_id=:session_id")
+    List<Item> getItemsList(long session_id);
+
     @Query("SELECT COUNT(*) FROM items WHERE session_id=:session_id")
     LiveData<Integer> getSessionsItemsCount(long session_id);
 

@@ -6,7 +6,10 @@ import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.List;
 
 import static androidx.room.ForeignKey.CASCADE;
 
@@ -29,7 +32,7 @@ public class Item {
     private long sessionId;
 
     @Ignore
-    private ArrayList<Person> users;
+    public ArrayList<Person> users;
 
     public Item(String title, double cost, long bayerId, long sessionId) {
         this.title = title;
@@ -77,5 +80,26 @@ public class Item {
 
     public void setSessionId(long sessionId) {
         this.sessionId = sessionId;
+    }
+
+    /* CALCULATION */
+
+    public boolean addUser(Person person) {
+        if (!users.contains(person)) {
+            users.add(person);
+            return true;
+        }
+        return false;
+    }
+
+    public void addUsers(List<Person> personList) {
+        for (Person p: personList) {
+            addUser(p);
+        }
+    }
+
+    public BigDecimal getUnitCost() {
+        BigDecimal count = BigDecimal.valueOf(users.size(), 15);
+        return BigDecimal.valueOf(cost).divide(count);
     }
 }

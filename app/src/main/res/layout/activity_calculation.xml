@@ -26,6 +26,13 @@
             />
     </androidx.appcompat.widget.Toolbar>
 
+    <ProgressBar
+        android:id="@+id/progress_circular"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true">
+    </ProgressBar>
+
     <androidx.core.widget.NestedScrollView
         android:layout_below="@id/calculation_toolbar"
         android:layout_width="match_parent"
@@ -40,12 +47,13 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_result"
-                tools:listitem=""
+                tools:listitem="@layout/li_result"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
 
             </androidx.recyclerview.widget.RecyclerView>
+
         </androidx.cardview.widget.CardView>
 
 
