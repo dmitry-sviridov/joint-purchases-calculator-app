@@ -10,6 +10,8 @@ import ru.dkotsur.calculator.data.db.repository.RepositoryItem
 import ru.dkotsur.calculator.data.db.repository.RepositorySelectedSession
 import java.math.BigDecimal
 import kotlin.math.abs
+import kotlin.math.absoluteValue
+import kotlin.math.roundToInt
 
 class ResultViewModel(sessionId: Long): ViewModel() {
 
@@ -46,13 +48,10 @@ class ResultViewModel(sessionId: Long): ViewModel() {
         }
     }
 
-
-    //TODO: FIX OOM, REMOVE BIGDECIMAL
-
     private fun calculateBalances() {
         itemsList.forEach { item ->
-            val cost = item.cost.toBigDecimal()
-            val unitcost = item.unitCost.setScale(2)
+            val cost = item.cost
+            val unitcost = item.unitCost
 
             val bayerId = item.bayerId
             personsList.forEach {
@@ -68,31 +67,33 @@ class ResultViewModel(sessionId: Long): ViewModel() {
 
     private fun calculateTransactions() {
         var transactions = ArrayList<CalculationResult>()
-        val iterator = personsList.iterator()
 
         Log.e(TAG, " size = ${personsList.size}")
         while (personsList.size > 1) {
 
             personsList.sort()
 
-            val budgetFirst = personsList.first().budget.toDouble()
-            val budgetLast = personsList.last().budget.toDouble()
+            val budgetFirst = personsList.first().budget.absoluteValue
+            val budgetLast = personsList.last().budget.absoluteValue
             val nameFirst = personsList.first().name
             val nameLast = personsList.last().name
-            var delta: BigDecimal
+            var delta: Double
 
-            if (abs(budgetFirst) >= abs(budgetLast)) {
-                delta = personsList.last().budget.abs()
+            delta = if (budgetFirst >= budgetLast) {
+                budgetLast
             } else {
-                delta = personsList.first().budget.abs()
+                budgetFirst
             }
-            transactions.add(CalculationResult(nameFirst, nameLast, delta.toDouble()))
+
+            transactions.add(CalculationResult(nameFirst, nameLast, delta))
 
             personsList.first().plusBudget(delta)
             personsList.last().minusBudget(delta)
 
+            val iterator  = personsList.listIterator()
             while (iterator.hasNext()) {
-                if (iterator.next().budget.setScale(2).toDouble() == 0.0) {
+                var b = iterator.next().budget
+                if (b.roundToInt() == 0) {
                     iterator.remove()
                 }
             }

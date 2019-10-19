@@ -25,12 +25,12 @@ public class Person implements Comparable<Person> {
     private long sessionId;
 
     @Ignore
-    private BigDecimal budget;
+    private Double budget;
 
     public Person(String name, long sessionId) {
         this.name = name;
         this.sessionId = sessionId;
-        budget = BigDecimal.ZERO;
+        budget = 0.0;
     }
 
     public long getId() {
@@ -68,15 +68,15 @@ public class Person implements Comparable<Person> {
         return (int) ((budget.doubleValue() - person.budget.doubleValue()));
     }
 
-    public void plusBudget(BigDecimal delta) {
-        budget = budget.add(delta);
+    public void plusBudget(double delta) {
+        budget+= delta;
     }
 
-    public void minusBudget(BigDecimal delta) {
-        budget = budget.subtract(delta);
+    public void minusBudget(double delta) {
+        budget-=delta;
     }
 
-    public BigDecimal getBudget() {
+    public double getBudget() {
         return budget;
     }
 }

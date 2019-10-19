@@ -100,8 +100,9 @@ public class Item {
         }
     }
 
-    public BigDecimal getUnitCost() {
+    public Double getUnitCost() {
         BigDecimal count = BigDecimal.valueOf(users.size(), 0);
-        return BigDecimal.valueOf(cost).divide(count, 2, RoundingMode.HALF_UP);
+        BigDecimal result = BigDecimal.valueOf(cost).divide(count, 2, RoundingMode.HALF_UP);
+        return result.doubleValue();
     }
 }
