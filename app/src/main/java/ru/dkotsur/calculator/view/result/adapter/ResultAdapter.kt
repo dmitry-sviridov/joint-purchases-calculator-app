@@ -1,5 +1,6 @@
 package ru.dkotsur.calculator.view.result.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +22,6 @@ class ResultAdapter: ListAdapter<CalculationResult, ResultAdapter.Holder>(DIFF_C
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.bind(getItem(position))
     }
-
 
     inner class Holder(itemView: View): RecyclerView.ViewHolder(itemView) {
 

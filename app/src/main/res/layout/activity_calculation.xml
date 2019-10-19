@@ -38,13 +38,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.cardview.widget.CardView
-            android:layout_margin="16dp"
-            app:cardCornerRadius="16dp"
-            android:elevation="2dp"
-            android:layout_width="match_parent"
-            android:layout_height="500dp">
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_result"
                 tools:listitem="@layout/li_result"
@@ -53,10 +46,6 @@
 
 
             </androidx.recyclerview.widget.RecyclerView>
-
-        </androidx.cardview.widget.CardView>
-
-
     </androidx.core.widget.NestedScrollView>
 
 

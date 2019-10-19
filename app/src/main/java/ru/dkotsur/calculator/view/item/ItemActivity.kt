@@ -68,12 +68,4 @@ class ItemActivity : AppCompatActivity() {
     fun currentItemId(): Long {
         return itemId
     }
-
-    fun runResultActivity() {
-        val intent = Intent(this@ItemActivity, CalculationActivity::class.java)
-        intent.putExtra(CalculationActivity.EXTRA_SESSION_ID, sessionId)
-        startActivity(intent)
-    }
-
-
 }

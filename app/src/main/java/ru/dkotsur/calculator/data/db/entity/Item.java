@@ -1,5 +1,7 @@
 package ru.dkotsur.calculator.data.db.entity;
 
+import android.util.Log;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -32,7 +34,7 @@ public class Item {
     private long sessionId;
 
     @Ignore
-    public ArrayList<Person> users;
+    public ArrayList<Long> users;
 
     public Item(String title, double cost, long bayerId, long sessionId) {
         this.title = title;
@@ -84,22 +86,22 @@ public class Item {
 
     /* CALCULATION */
 
-    public boolean addUser(Person person) {
-        if (!users.contains(person)) {
-            users.add(person);
+    public boolean addUser(Long id) {
+        if (!users.contains(id)) {
+            users.add(id);
             return true;
         }
         return false;
     }
 
-    public void addUsers(List<Person> personList) {
-        for (Person p: personList) {
-            addUser(p);
+    public void addUsers(List<Long> ids) {
+        for (Long id: ids) {
+            addUser(id);
         }
     }
 
     public BigDecimal getUnitCost() {
-        BigDecimal count = BigDecimal.valueOf(users.size(), 15);
-        return BigDecimal.valueOf(cost).divide(count);
+        BigDecimal count = BigDecimal.valueOf(users.size(), 0);
+        return BigDecimal.valueOf(cost).divide(count, 2, RoundingMode.HALF_UP);
     }
 }

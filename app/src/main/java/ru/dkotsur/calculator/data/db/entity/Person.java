@@ -65,7 +65,7 @@ public class Person implements Comparable<Person> {
 
     @Override
     public int compareTo(Person person) {
-        return (int) ((budget.doubleValue() - person.budget.doubleValue())*1000);
+        return (int) ((budget.doubleValue() - person.budget.doubleValue()));
     }
 
     public void plusBudget(BigDecimal delta) {
