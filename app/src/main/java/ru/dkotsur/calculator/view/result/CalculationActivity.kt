@@ -49,9 +49,6 @@ class CalculationActivity : AppCompatActivity() {
 
     fun initRecyclerView() {
         transactions.observe(this, Observer {
-            it.forEach {
-                Log.e("234", "${it.userName_1} -> ${it.money} -> ${it.userName_2} ")
-            }
             it.let(recyclerViewAdapter::submitList)
             if (rv_result.adapter!!.itemCount > 0) {
                 rv_result.smoothScrollToPosition(rv_result.adapter!!.itemCount)

@@ -39,7 +39,6 @@ class EventViewModel(sessionId: Long) : ViewModel() {
         if (text.isNotEmpty()) {
             val saved = Person(text.toString(), mSessionId)
             repositorySelectedSession.insertPerson(saved)
-            Log.e("INSERT", "Person with name = $text was inserted")
         } else {
             Log.e("INSERT", "text is empty")
         }

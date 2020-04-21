@@ -68,7 +68,6 @@ class ResultViewModel(sessionId: Long): ViewModel() {
     private fun calculateTransactions() {
         var transactions = ArrayList<CalculationResult>()
 
-        Log.e(TAG, " size = ${personsList.size}")
         while (personsList.size > 1) {
 
             personsList.sort()
