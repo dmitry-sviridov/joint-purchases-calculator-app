@@ -1,20 +1,21 @@
 package ru.dkotsur.calculator.view.item
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
-import kotlinx.android.synthetic.main.activity_add_iem.*
+import kotlinx.android.synthetic.main.activity_item.*
 import ru.dkotsur.calculator.R
+import ru.dkotsur.calculator.view.result.CalculationActivity
 import ru.dkotsur.calculator.viewmodel.AddItemViewModel
 import ru.dkotsur.calculator.viewmodel.EditItemViewModel
 import ru.dkotsur.calculator.viewmodel.factory.AddItemViewModelFactory
 import ru.dkotsur.calculator.viewmodel.factory.EditItemViewModelFactory
 
 
-class AddEditItemActivity : AppCompatActivity() {
+class ItemActivity : AppCompatActivity() {
 
     companion object {
         val EXTRA_SESSION_ID = "ru.dkotsur.calculator.addItem.SessionID"
@@ -28,10 +29,9 @@ class AddEditItemActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_iem)
+        setContentView(R.layout.activity_item)
         sessionId = intent.getLongExtra(EXTRA_SESSION_ID, -1L)
         itemId = intent.getLongExtra(EXTRA_ITEM_ID, -1L)
-
         checkIsEdit(sessionId, itemId)
     }
 
@@ -68,6 +68,4 @@ class AddEditItemActivity : AppCompatActivity() {
     fun currentItemId(): Long {
         return itemId
     }
-
-
 }

@@ -1,6 +1,5 @@
 package ru.dkotsur.calculator.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import ru.dkotsur.calculator.data.db.entity.Item
@@ -18,13 +17,11 @@ class EditItemViewModel(sessionId: Long, itemId: Long) : ViewModel() {
 
     private val allPersonsInSession: LiveData<List<Person>>
     private val allPersonsInItem: LiveData<List<Person>>
-
-    private val allPersonsInItemID: LiveData<List<Long>>
+    private val allPersonsInItemID: List<Long>
 
     init {
         mSessionId = sessionId
         mItemId = itemId
-        Log.e("1231313123", "session Id = $sessionId itemid = $itemId")
         allPersonsInSession = repositorySelectedSession.getPersonsFromSession(mSessionId)
         allPersonsInItem = repositoryItem.personsForItem
         allPersonsInItemID = repositoryItem.allPersonsForItemId
@@ -34,7 +31,7 @@ class EditItemViewModel(sessionId: Long, itemId: Long) : ViewModel() {
         return allPersonsInSession
     }
 
-    fun getAllPersonsInItemIDS(): LiveData<List<Long>> {
+    fun getAllPersonsInItemIDS(): List<Long> {
         return allPersonsInItemID
     }
 

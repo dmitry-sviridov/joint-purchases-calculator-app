@@ -1,12 +1,17 @@
 package ru.dkotsur.calculator.data.db.entity;
 
+import android.util.Log;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.List;
 
 import static androidx.room.ForeignKey.CASCADE;
 
@@ -29,7 +34,7 @@ public class Item {
     private long sessionId;
 
     @Ignore
-    private ArrayList<Person> users;
+    public ArrayList<Long> users;
 
     public Item(String title, double cost, long bayerId, long sessionId) {
         this.title = title;
@@ -77,5 +82,27 @@ public class Item {
 
     public void setSessionId(long sessionId) {
         this.sessionId = sessionId;
+    }
+
+    /* CALCULATION */
+
+    public boolean addUser(Long id) {
+        if (!users.contains(id)) {
+            users.add(id);
+            return true;
+        }
+        return false;
+    }
+
+    public void addUsers(List<Long> ids) {
+        for (Long id: ids) {
+            addUser(id);
+        }
+    }
+
+    public Double getUnitCost() {
+        BigDecimal count = BigDecimal.valueOf(users.size(), 0);
+        BigDecimal result = BigDecimal.valueOf(cost).divide(count, 2, RoundingMode.HALF_UP);
+        return result.doubleValue();
     }
 }

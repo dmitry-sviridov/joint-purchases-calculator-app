@@ -5,7 +5,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -23,8 +22,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import ru.dkotsur.calculator.R
 import ru.dkotsur.calculator.data.db.entity.Session
 import ru.dkotsur.calculator.view.sessions.adapter.SessionsAdapter
-import ru.dkotsur.calculator.view.event.EditSessionActivity
-import ru.dkotsur.calculator.viewmodel.SessionViewModel
+import ru.dkotsur.calculator.view.event.EventActivity
+import ru.dkotsur.calculator.viewmodel.MainViewModel
 
 
 class SessionActivity : AppCompatActivity() {
@@ -33,7 +32,7 @@ class SessionActivity : AppCompatActivity() {
     private lateinit var bottomSheet: LinearLayout
     private lateinit var editTextSession: EditText
 
-    private lateinit var viewModel: SessionViewModel
+    private lateinit var viewModel: MainViewModel
     private lateinit var sessionsAdapter: SessionsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +40,7 @@ class SessionActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setTitle(R.string.session_screen_title)
 
-        viewModel = ViewModelProviders.of(this).get(SessionViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         sessionsAdapter = SessionsAdapter()
 
         initBottomSheet()
@@ -82,9 +81,9 @@ class SessionActivity : AppCompatActivity() {
 
         sessionsAdapter.setOnItemClickListener(object: SessionsAdapter.onItemClickListener {
             override fun onItemClick(session: Session) {
-                val intent = Intent(this@SessionActivity, EditSessionActivity::class.java)
-                intent.putExtra(EditSessionActivity.EXTRA_ID, session.id)
-                intent.putExtra(EditSessionActivity.EXTRA_TITLE, session.title)
+                val intent = Intent(this@SessionActivity, EventActivity::class.java)
+                intent.putExtra(EventActivity.EXTRA_ID, session.id)
+                intent.putExtra(EventActivity.EXTRA_TITLE, session.title)
                 startActivity(intent)
             }
         })

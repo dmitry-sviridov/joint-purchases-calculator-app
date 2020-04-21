@@ -20,8 +20,12 @@ public interface PersonItemDao {
             "persons.id=persons_items.person_id WHERE persons_items.item_id = :itemId")
     LiveData<List<Person>> getAllPersonsForItem(final long itemId);
 
+    @Query("SELECT * FROM persons INNER JOIN persons_items ON " +
+            "persons.id=persons_items.person_id WHERE persons_items.item_id = :itemId")
+    List<Person> getPersonsList(final long itemId);
+
     @Query("SELECT person_id FROM persons_items WHERE item_id=:itemId")
-    LiveData<List<Long>> getAllPersonsForItemId(final long itemId);
+    List<Long> getAllPersonsForItemId(final long itemId);
 
     @Query("DELETE FROM persons_items WHERE item_id=:itemId")
     void delete(long itemId);

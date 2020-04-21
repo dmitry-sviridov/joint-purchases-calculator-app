@@ -23,4 +23,5 @@
     <string name="item_save_btn">Save</string>
     <string name="items_recycler_list_item_cost">Cost: </string>
     <string name="toast_incorrect_save_item">Set title, correct cost and mark persons!</string>
+    <string name="calculation_result_title">Result</string>
 </resources>

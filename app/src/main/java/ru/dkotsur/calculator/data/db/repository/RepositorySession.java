@@ -24,7 +24,6 @@ public class RepositorySession extends Repository{
 
     public void insert(Session session) {
         new InsertSessionAsyncTask(sessionDao).execute(session);
-        Log.e(TAG, "Inserting..");
     }
 
     public void delete(Session session) {
@@ -40,7 +39,6 @@ public class RepositorySession extends Repository{
     }
 
     public LiveData<List<Session>> getAllSessions() {
-        Log.e(TAG, "Taking all sessions from db");
         return allSessions;
     }
 

@@ -5,7 +5,9 @@ import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
+import ru.dkotsur.calculator.data.db.dao.ItemDao;
 import ru.dkotsur.calculator.data.db.dao.PersonDao;
 import ru.dkotsur.calculator.data.db.entity.Item;
 import ru.dkotsur.calculator.data.db.entity.Person;
@@ -42,6 +44,40 @@ public class RepositorySelectedSession extends Repository{
 
     public void deletePerson(Person person) {
         new DeletePersonAsync(personDao).execute(person);
+    }
+
+    public List<Person> getPersonsList() throws ExecutionException, InterruptedException {
+        return new PersonsListAsync(personDao).execute(sessionId).get();
+    }
+
+    public List<Item> getItemsList() throws ExecutionException, InterruptedException {
+        return new ItemsListAsync(itemDao).execute(sessionId).get();
+    }
+
+    private static class PersonsListAsync extends AsyncTask<Long, Void, List<Person>> {
+        private PersonDao personDao;
+
+        public PersonsListAsync(PersonDao personDao) {
+            this.personDao = personDao;
+        }
+
+        @Override
+        protected List<Person> doInBackground(Long... longs) {
+            return personDao.getPersonList(longs[0]);
+        }
+    }
+
+    private static class ItemsListAsync extends AsyncTask<Long, Void, List<Item>> {
+        private ItemDao itemDao;
+
+        public ItemsListAsync(ItemDao itemDao) {
+            this.itemDao = itemDao;
+        }
+
+        @Override
+        protected List<Item> doInBackground(Long... longs) {
+            return itemDao.getItemsList(longs[0]);
+        }
     }
 
     private static class InsertPersonAsync extends AsyncTask<Person, Void, Void> {

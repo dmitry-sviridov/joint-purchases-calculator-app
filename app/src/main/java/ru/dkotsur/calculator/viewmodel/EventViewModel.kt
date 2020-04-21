@@ -9,7 +9,7 @@ import ru.dkotsur.calculator.data.db.entity.Person
 import ru.dkotsur.calculator.data.db.repository.RepositoryItem
 import ru.dkotsur.calculator.data.db.repository.RepositorySelectedSession
 
-class EditSessionViewModel(sessionId: Long) : ViewModel() {
+class EventViewModel(sessionId: Long) : ViewModel() {
 
     private var mSessionId: Long = 0
     private val repositorySelectedSession = RepositorySelectedSession(sessionId)
@@ -39,7 +39,6 @@ class EditSessionViewModel(sessionId: Long) : ViewModel() {
         if (text.isNotEmpty()) {
             val saved = Person(text.toString(), mSessionId)
             repositorySelectedSession.insertPerson(saved)
-            Log.e("INSERT", "Person with name = $text was inserted")
         } else {
             Log.e("INSERT", "text is empty")
         }

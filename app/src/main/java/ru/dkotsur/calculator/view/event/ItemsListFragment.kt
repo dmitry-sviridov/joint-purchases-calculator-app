@@ -11,25 +11,23 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.android.synthetic.main.fr_edit_items_in_session.*
+import kotlinx.android.synthetic.main.fr_items_list.*
 import ru.dkotsur.calculator.R
 import ru.dkotsur.calculator.data.db.entity.Item
-import ru.dkotsur.calculator.data.db.entity.Person
 import ru.dkotsur.calculator.view.event.adapter.ItemsAdapter
-import ru.dkotsur.calculator.view.event.adapter.PersonsAdapter
-import ru.dkotsur.calculator.view.item.AddEditItemActivity
-import ru.dkotsur.calculator.viewmodel.EditSessionViewModel
+import ru.dkotsur.calculator.view.item.ItemActivity
+import ru.dkotsur.calculator.viewmodel.EventViewModel
 
 /**
  * A simple [Fragment] subclass.
  */
-class EditSessionItemsFragment : Fragment() {
+class ItemsListFragment : Fragment() {
 
     companion object {
-        fun newInstance() = EditSessionItemsFragment()
+        fun newInstance() = ItemsListFragment()
     }
 
-    private lateinit var viewModel: EditSessionViewModel
+    private lateinit var viewModel: EventViewModel
     private lateinit var itemsAdapter: ItemsAdapter
     private lateinit var fabAddItem: FloatingActionButton
 
@@ -37,7 +35,7 @@ class EditSessionItemsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val root = inflater.inflate(R.layout.fr_edit_items_in_session, container, false)
+        val root = inflater.inflate(R.layout.fr_items_list, container, false)
         fabAddItem = root.findViewById(R.id.fab_add_item)
         return root
     }
@@ -45,7 +43,7 @@ class EditSessionItemsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = activity!!.run {
-            ViewModelProviders.of(this).get(EditSessionViewModel::class.java)
+            ViewModelProviders.of(this).get(EventViewModel::class.java)
         }
         itemsAdapter = ItemsAdapter()
         initFab()
@@ -56,7 +54,7 @@ class EditSessionItemsFragment : Fragment() {
         val id = viewModel.getSessionId()
         fabAddItem.setOnClickListener{
             startActivity(
-                Intent(activity, AddEditItemActivity::class.java).putExtra(AddEditItemActivity.EXTRA_SESSION_ID, id))
+                Intent(activity, ItemActivity::class.java).putExtra(ItemActivity.EXTRA_SESSION_ID, id))
         }
 
     }
@@ -81,8 +79,8 @@ class EditSessionItemsFragment : Fragment() {
         itemsAdapter.setOnItemClickListener(object : ItemsAdapter.onItemClickListener {
             override fun onItemClicked(item: Item) {
                 startActivity(
-                    Intent(activity, AddEditItemActivity::class.java).putExtra(AddEditItemActivity.EXTRA_SESSION_ID, viewModel.getSessionId())
-                        .putExtra(AddEditItemActivity.EXTRA_ITEM_ID, item.id)
+                    Intent(activity, ItemActivity::class.java).putExtra(ItemActivity.EXTRA_SESSION_ID, viewModel.getSessionId())
+                        .putExtra(ItemActivity.EXTRA_ITEM_ID, item.id)
                 )
             }
             override fun onDeleteItem(item: Item) {

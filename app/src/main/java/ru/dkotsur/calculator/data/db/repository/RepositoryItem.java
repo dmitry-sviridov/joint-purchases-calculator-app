@@ -10,6 +10,7 @@ import java.util.concurrent.ExecutionException;
 
 import kotlin.Triple;
 import ru.dkotsur.calculator.data.db.dao.ItemDao;
+import ru.dkotsur.calculator.data.db.dao.PersonDao;
 import ru.dkotsur.calculator.data.db.dao.PersonItemDao;
 import ru.dkotsur.calculator.data.db.entity.Item;
 import ru.dkotsur.calculator.data.db.entity.Person;
@@ -19,7 +20,7 @@ public class RepositoryItem extends Repository {
 
     private long sessionId;
     private long itemId;
-    private LiveData<List<Long>> allPersonsForItemId;
+    private List<Long> allPersonsForItemId;
     private LiveData<List<Person>> allPersonsInSession;
     private LiveData<List<Person>> allPersonsForItem;
 
@@ -47,7 +48,15 @@ public class RepositoryItem extends Repository {
         return allPersonsForItem;
     }
 
-    public LiveData<List<Long>> getAllPersonsForItemId() {
+    public Person getPersonById(long personId) throws ExecutionException, InterruptedException {
+         return new PersonByIdAsync(personDao).execute(personId).get();
+    }
+
+    public List<Person> getPersonsList(Long itemId) throws ExecutionException, InterruptedException {
+        return new PersonsListAsync(personItemDao).execute(itemId).get();
+    }
+
+    public List<Long> getAllPersonsForItemId() {
         return allPersonsForItemId;
     }
 
@@ -181,6 +190,32 @@ public class RepositoryItem extends Repository {
         protected Void doInBackground(Long... longs) {
             personItemDao.delete(longs[0]);
             return null;
+        }
+    }
+
+    private static class PersonsListAsync extends AsyncTask<Long, Void, List<Person>> {
+        private PersonItemDao personItemDao;
+
+        public PersonsListAsync(PersonItemDao personItemDao) {
+            this.personItemDao = personItemDao;
+        }
+
+        @Override
+        protected List<Person> doInBackground(Long... longs) {
+            return personItemDao.getPersonsList(longs[0]);
+        }
+    }
+
+    private static class PersonByIdAsync extends AsyncTask<Long, Void, Person> {
+        private PersonDao personDao;
+
+        public PersonByIdAsync(PersonDao personDao) {
+            this.personDao = personDao;
+        }
+
+        @Override
+        protected Person doInBackground(Long... longs) {
+            return personDao.getPersonById(longs[0]);
         }
     }
 

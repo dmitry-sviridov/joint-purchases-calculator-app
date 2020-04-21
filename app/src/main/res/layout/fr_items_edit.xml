@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="@dimen/rw_padding_bottom"
+    tools:context=".view.item.ItemActivity">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/scrollable_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/container_card_edit"
+                android:layout_margin="16dp"
+                app:cardCornerRadius="16dp"
+                android:elevation="2dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/edit_text_item_title"
+                        android:hint="@string/item_title"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="16dp"
+                        android:layout_height="48dp"
+                        android:singleLine="true"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:padding="16dp"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/edit_text_items_cost"
+                        android:hint="@string/item_cost"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:singleLine="true"
+                        android:imeOptions="actionDone"
+                        android:inputType="numberDecimal"
+                        android:digits="0123456789."
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:padding="16dp"
+                        android:textSize="14sp" />
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="4dp">
+                    </Space>
+                    <LinearLayout
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:text="@string/bayer"
+                            android:layout_marginLeft="16dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                        </TextView>
+                        <androidx.appcompat.widget.AppCompatSpinner
+                            android:id="@+id/spinner_bayer_selection"
+                            android:layout_marginLeft="16dp"
+                            android:spinnerMode="dialog"
+                            tools:listitem="@layout/spinner_row"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                        </androidx.appcompat.widget.AppCompatSpinner>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/container_card_view"
+                android:layout_margin="16dp"
+                app:cardCornerRadius="16dp"
+                android:elevation="2dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textSize="20sp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:textAlignment="center"
+                    android:text="@string/mark_participants_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+
+                <LinearLayout
+                    android:layout_marginTop="32dp"
+                    android:id="@+id/linear_container"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+            </androidx.cardview.widget.CardView>
+
+            <include
+                layout="@layout/btn_save_item"/>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

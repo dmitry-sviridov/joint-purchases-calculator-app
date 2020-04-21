@@ -9,7 +9,7 @@ import ru.dkotsur.calculator.data.db.repository.RepositorySession
 import java.text.SimpleDateFormat
 import java.util.*
 
-class SessionViewModel: ViewModel() {
+class MainViewModel: ViewModel() {
 
     private val sessionRepository: RepositorySession = RepositorySession()
     private val allSession: LiveData<List<Session>>
